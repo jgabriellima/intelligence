@@ -27,8 +27,8 @@ var swapbody = function(chromosomeA, chromosomeB, index) {
 exports.onePointFixedStrategy = function(individuals) {
     validateMinimumLength(individuals);
     validateFixedLength(individuals);
-    offspringA = individuals[0].copy();
-    offspringB = individuals[1].copy();
+    var offspringA = individuals[0].copy();
+    var offspringB = individuals[1].copy();
     var cut = utils.randBetween(0, offspringA.body.length-1);
     for (var i=cut; i < offspringA.body.length; i++) {
         swapbody(offspringA, offspringB, i);
@@ -39,8 +39,8 @@ exports.onePointFixedStrategy = function(individuals) {
 exports.twoPointFixedStrategy = function(individuals) {
     validateMinimumLength(individuals);
     validateFixedLength(individuals);
-    offspringA = individuals[0].copy();
-    offspringB = individuals[1].copy();
+    var offspringA = individuals[0].copy();
+    var offspringB = individuals[1].copy();
     var cutA = utils.randBetween(0, offspringA.body.length - 1);
     var cutB = utils.randBetween(cutA, offspringA.body.length);
     for (var i=cutA; i < offspringA.body.length; i++) {

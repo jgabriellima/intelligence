@@ -33,7 +33,7 @@ Individual.prototype.initialize = function() {
 
 Individual.prototype.copy = function() {
     var copied = new Individual(this.options);
-    copied.body = this.body;
+    copied.body = this.body.slice(0);
     copied.fitness = this.fitness;
     return copied;
 };

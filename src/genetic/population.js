@@ -35,7 +35,7 @@ Population.prototype.setDefaultOptionsIfNotRequired = function() {
         this.options.mutationRate = 0.5;
     }
     if (!this.options.tournamentSize) {
-        this.options.tournamentSize = 5;
+        this.options.tournamentSize = Math.ceil(this.options.populationSize * 0.05);
     }
     if (!this.options.selectionStrategy) {
         this.options.selectionStrategy = selection.tournamentSelectionStrategy;
