@@ -1,11 +1,15 @@
 var intelligence = require('./../src/intelligence');
 
+// creqte an individual whos body is a fixed length of 12
+// geneFactory returns a random letter in the alphabet
 var baseIndividual = new intelligence.Individual({
     minLength: 12,
     maxLength: 12,
     geneFactory: intelligence.alphabetGeneFactory
 });
 
+// create a population of individuals using the baseIndividual
+// fitness function rewards individuals the closer they are to 'hello world'
 var population = new intelligence.Population({
     baseIndividual: baseIndividual,
     crossoverStrategy: intelligence.onePointFixedStrategy,
@@ -24,6 +28,7 @@ var population = new intelligence.Population({
     tournamentSize: 2,
 });
 
+// train the population over 100 generations
 for (var i=0; i< 100; i++) {
     population.step();
     if (i % 10 === 0) {
