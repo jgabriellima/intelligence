@@ -13,13 +13,13 @@ Individual.prototype.validateRequiredOptions = function() {
         throw "options are required";
     }
     if (this.options.minLength === undefined) {
-        throw "a valid Number value is required for option 'minLength'";
+        throw "option 'minLength' is required";
     }
     else if (this.options.maxLength === undefined) {
-        throw "a valid Number value is required for option 'maxLength'";
+        throw "option 'maxLength' is required";
     }
     else if (!this.options.geneFactory) {
-        throw "options 'geneFactory' is required";
+        throw "option 'geneFactory' is required";
     }
 };
 

@@ -6,3 +6,7 @@ exports.randBetween = function(min, max) {
 exports.random = function() {
     return Math.random();
 };
+
+exports.selectRandom = function(from) {
+    return from[randBetween(0, from.length)];
+};
