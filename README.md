@@ -1,3 +1,5 @@
+[![NPM version](https://badge.fury.io/js/intelligence.svg)](http://badge.fury.io/js/intelligence)
+
 intelligence.js
 ==============
 
