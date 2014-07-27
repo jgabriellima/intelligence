@@ -30,16 +30,30 @@ module.exports = {
         test.ok(tree.body ? true : false);
         test.done();
     },
-    getRandomOperatorNode_whenCalled_returnsOperatorNode: function (test) {
+    generateOperatorNode_whenCalled_returnsOperatorNode: function (test) {
         var tree = new intelligence.GPTreeIndividual({});
-        var operatorNode = tree.getRandomOperatorNode();
+        var operatorNode = tree.generateOperatorNode();
         test.ok(operatorNode ? true : false);
         test.ok(operatorNode.gpFunction ? true : false);
         test.done();
     },
-    getRandomValueNode_WhenCalled_ReturnsValueNode: function (test) {
+    generateValueNode_WhenCalled_ReturnsValueNode: function (test) {
         var tree = new intelligence.GPTreeIndividual({});
-        var valueNode = tree.getRandomValueNode();
+        var valueNode = tree.generateValueNode();
+        test.ok(valueNode ? true : false);
+        test.ok(valueNode.value ? true : false);
+        test.done();
+    },
+    selectRandomOperatorNode_whenCalled_returnsOperatorNode: function (test) {
+        var tree = new intelligence.GPTreeIndividual({});
+        var operatorNode = tree.selectRandomOperatorNode();
+        test.ok(operatorNode ? true : false);
+        test.ok(operatorNode.gpFunction ? true : false);
+        test.done();
+    },
+    selectRandomValueNode_WhenCalled_ReturnsValueNode: function (test) {
+        var tree = new intelligence.GPTreeIndividual({});
+        var valueNode = tree.selectRandomValueNode();
         test.ok(valueNode ? true : false);
         test.ok(valueNode.value ? true : false);
         test.done();
@@ -67,13 +81,6 @@ module.exports = {
         var tree = new intelligence.GPTreeIndividual({});
         var previousBody = JSON.stringify(tree.body);
         tree.mutateNodeReplacement();
-        test.ok(previousBody !== JSON.stringify(tree.body));
-        test.done();
-    },
-    mutateConstant_whenCalled_bodyIsMutated: function (test) {
-        var tree = new intelligence.GPTreeIndividual({});
-        var previousBody = JSON.stringify(tree.body);
-        tree.mutateConstant();
         test.ok(previousBody !== JSON.stringify(tree.body));
         test.done();
     },

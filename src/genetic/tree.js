@@ -15,6 +15,10 @@ BaseNode.prototype.getExecutableCode = function () {
     throw "method 'getExecutableCode' must be overriden";
 };
 
+BaseNode.prototype.deepCopy = function () {
+    throw "method 'deepCopy' must be overriden";
+};
+
 BaseNode.prototype.replace = function (newNode) {
     if (this === this.parentNode.leftChild) {
         this.parentNode.leftChild = newNode;
@@ -42,6 +46,10 @@ ValueNode.prototype.getExecutableCode = function () {
     return this.value.toString();
 };
 
+ValueNode.prototype.deepCopy = function () {
+    return new ValueNode(this.value);
+};
+
 var OperatorNode = function (gpFunction) {
     this.gpFunction = gpFunction;
     this.leftChild = null;
@@ -67,6 +75,13 @@ OperatorNode.prototype.getExecutableCode = function () {
         ", " + this.rightChild.getExecutableCode() + ")";
 };
 
+OperatorNode.prototype.deepCopy = function () {
+    var newNode = new OperatorNode(this.gpFunction);
+    newNode.leftChild = this.leftChild.deepCopy();
+    newNode.rightChild = this.rightChild.deepCopy();
+    return newNode;
+};
+
 
 var GPTreeIndividual = function (options) {
     this.options = options;
@@ -74,12 +89,9 @@ var GPTreeIndividual = function (options) {
     this.initialise();
 };
 
-GPTreeIndividual.prototype = Object.create(intelligence.Individual);
-
 GPTreeIndividual.prototype.setDefaultOptionsIfNotProvided = function () {
     if (!this.options.functionSet) {
         this.options.functionSet = [
-
             function add(a, b) {
                 return a + b;
             },
@@ -108,20 +120,12 @@ GPTreeIndividual.prototype.setDefaultOptionsIfNotProvided = function () {
         this.options.mutationMethod = 'nodeReplacement';
     }
     if (!this.options.maxDepth) {
-        this.options.maxDepth = 20;
+        this.options.maxDepth = 10;
     }
 };
 
 GPTreeIndividual.prototype.evaluate = function () {
     return this.body.evaluate();
-};
-
-GPTreeIndividual.prototype.generateOperatorNode = function () {
-    return new OperatorNode(utils.selectRandom(this.options.functionSet));
-};
-
-GPTreeIndividual.prototype.generateValueNode = function () {
-    return new ValueNode(utils.selectRandom(this.options.terminalSet));
 };
 
 GPTreeIndividual.prototype.initialise = function () {
@@ -136,6 +140,18 @@ GPTreeIndividual.prototype.initialise = function () {
             throw "creation method not implemented";
         }
     }
+    return this;
+};
+
+GPTreeIndividual.prototype.copy = function() {
+    var copied = new GPTreeIndividual(this.options);
+    copied.body = this.body.deepCopy();
+    copied.fitness = this.fitness;
+    return copied;
+};
+
+GPTreeIndividual.prototype.createNew = function() {
+    return this.copy().initialise();
 };
 
 GPTreeIndividual.prototype.initialiseFull = function (currDepth) {
@@ -193,7 +209,15 @@ GPTreeIndividual.prototype.replaceNodes = function (toReplace, newNode) {
     }
 };
 
-GPTreeIndividual.prototype.getRandomOperatorNode = function () {
+GPTreeIndividual.prototype.generateOperatorNode = function () {
+    return new OperatorNode(utils.selectRandom(this.options.functionSet));
+};
+
+GPTreeIndividual.prototype.generateValueNode = function () {
+    return new ValueNode(utils.selectRandom(this.options.terminalSet));
+};
+
+GPTreeIndividual.prototype.selectRandomOperatorNode = function () {
     var nodes = this.getNodesArray();
     var operatorNodes = []
     for (var i = 0; i < nodes.length; i++) {
@@ -204,7 +228,7 @@ GPTreeIndividual.prototype.getRandomOperatorNode = function () {
     return utils.selectRandom(operatorNodes);
 };
 
-GPTreeIndividual.prototype.getRandomValueNode = function () {
+GPTreeIndividual.prototype.selectRandomValueNode = function () {
     var nodes = this.getNodesArray();
     var valueNodes = []
     for (var i = 0; i < nodes.length; i++) {
@@ -220,9 +244,8 @@ GPTreeIndividual.prototype.getRandomNode = function () {
     return utils.selectRandom(nodes);
 };
 
-// TODO take into account node depth when generating subtree
 GPTreeIndividual.prototype.mutateSubtree = function () {
-    var selectedNode = this.getRandomOperatorNode();
+    var selectedNode = this.selectRandomOperatorNode();
     selectedNode.leftChild = this.initialiseGrow(this.options.maxDepth, selectedNode);
     selectedNode.leftChild = this.initialiseGrow(this.options.maxDepth, selectedNode);
 };
@@ -230,23 +253,19 @@ GPTreeIndividual.prototype.mutateSubtree = function () {
 GPTreeIndividual.prototype.mutateNodeReplacement = function () {
     var selectedNode = this.getRandomNode();
     if (selectedNode.gpFunction) {
-        this.replaceNodes(selectedNode, this.getRandomOperatorNode());
+        this.replaceNodes(selectedNode, this.selectRandomOperatorNode());
     } else {
-        this.replaceNodes(selectedNode, this.getRandomValueNode());
+        this.replaceNodes(selectedNode, this.selectRandomValueNode());
     }
 };
 
-GPTreeIndividual.prototype.mutateConstant = function () {
-    throw "not implemented";
-};
-
 GPTreeIndividual.prototype.mutuateShrink = function () {
-    var selectedNode = this.getRandomOperatorNode();
-    this.replaceNodes(selectedNode, this.getRandomValueNode());
+    var selectedNode = this.selectRandomOperatorNode();
+    this.replaceNodes(selectedNode, this.selectRandomValueNode());
 };
 
 GPTreeIndividual.prototype.mutateHoist = function () {
-    var selectedNode = this.getRandomOperatorNode();
+    var selectedNode = this.selectRandomOperatorNode();
     this.body = selectedNode;
 };
 
@@ -269,8 +288,6 @@ GPTreeIndividual.prototype.mutate = function () {
 };
 
 GPTreeIndividual.prototype.getExecutableCode = function () {
-    var code = "";
-
     return this.body.getExecutableCode() + ";";
 };
 

@@ -5,7 +5,7 @@ var intelligence = require('./../src/intelligence');
 var baseIndividual = new intelligence.Individual({
     minLength: 12,
     maxLength: 12,
-    geneFactory: intelligence.alphabetGeneFactory
+    geneFactory: intelligence.geneFactories.alphabet
 });
 
 var fitnessFunction = function (individual) {
@@ -23,7 +23,7 @@ var fitnessFunction = function (individual) {
 // fitness function rewards individuals the closer they are to 'hello world'
 var population = new intelligence.Population({
     baseIndividual: baseIndividual,
-    crossoverStrategy: intelligence.onePointFixedStrategy,
+    crossoverStrategy: intelligence.crossoverStrategies.onePointFixed,
     fitnessFunction: fitnessFunction,
     elitism: 2,
     populationSize: 75,
@@ -32,7 +32,7 @@ var population = new intelligence.Population({
 
 
 // this function is called each time a generation completed
-var generationCompleted = function(generationNumber, population) {
+var generationCompleted = function (generationNumber, population) {
     if (generationNumber % 10 === 0) {
         var best = population.getFittestIndividuals(1)[0].body;
         console.log("Gen: " + generationNumber + ", best: " + best.join(''));
@@ -40,7 +40,7 @@ var generationCompleted = function(generationNumber, population) {
 };
 
 // this function is called when training completes
-var trainCompleted = function(population) {
+var trainCompleted = function (population) {
     var best = population.getFittestIndividuals(1)[0].body;
     console.log("Training completed, best: " + best.join(''));
 };

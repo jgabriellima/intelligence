@@ -1,6 +1,6 @@
 var utils = require('./../infrastructure/utils');
 
-exports.randomSelectionStrategy = function (chromosomes, options) {
+exports.random = function (chromosomes, options) {
     var selections = [chromosomes[utils.randBetween(0, chromosomes.length)]];
     while (true) {
         var spouse = chromosomes[utils.randBetween(0, chromosomes.length)];
@@ -12,11 +12,11 @@ exports.randomSelectionStrategy = function (chromosomes, options) {
     return selections;
 }
 
-exports.rankSelectionStrategy = function (chromosomes, options) {
+exports.rank = function (chromosomes, options) {
     throw "not implemented";
 }
 
-exports.tournamentSelectionStrategy = function (chromosomes, options) {
+exports.tournament = function (chromosomes, options) {
     var selections = [];
     for (var i = 0; i < 2; i++) {
         var tournament = [];
@@ -47,6 +47,6 @@ exports.tournamentSelectionStrategy = function (chromosomes, options) {
     return selections;
 }
 
-exports.rouletteWheelSelectionStrategy = function (chromosomes, options) {
+exports.rouletteWheel = function (chromosomes, options) {
     throw "not implemented";
 }

@@ -11,8 +11,7 @@ var Individual = function (options) {
 Individual.prototype.validateRequiredOptions = function () {
     if (!this.options) {
         throw "options are required";
-    }
-    if (this.options.minLength === undefined) {
+    } else if (this.options.minLength === undefined) {
         throw "option 'minLength' is required";
     } else if (this.options.maxLength === undefined) {
         throw "option 'maxLength' is required";
@@ -25,7 +24,7 @@ Individual.prototype.initialize = function () {
     var length = utils.randBetween(this.options.minLength, this.options.maxLength);
     this.body = [];
     for (var i = 0; i < length; i++) {
-        this.body.push(this.options.geneFactory(i, this.body));
+        this.body.push(this.options.geneFactory());
     }
 };
 

@@ -1,5 +1,5 @@
 var utils = require('./../infrastructure/utils');
-var selection = require('./selection');
+var intelligence = require('./../intelligence');
 
 var Population = function (options) {
     this.options = options;
@@ -35,7 +35,7 @@ Population.prototype.setDefaultOptionsIfNotProvided = function () {
         this.options.tournamentSize = Math.ceil(this.options.populationSize * 0.05);
     }
     if (!this.options.selectionStrategy) {
-        this.options.selectionStrategy = selection.tournamentSelectionStrategy;
+        this.options.selectionStrategy = intelligence.selectionStrategies.tournament;
     }
 };
 
@@ -121,16 +121,15 @@ Population.prototype.step = function () {
 Population.prototype.train = function (numGenerations, generationCb, completedCb) {
     if (numGenerations <= 0) {
         throw "'numGenerations' must greater than 0";
-    }
-    else {
-        for (var i=0; i < numGenerations; i++) {
+    } else {
+        for (var i = 0; i < numGenerations; i++) {
             this.step();
             if (generationCb) {
-                generationCb(i, this);   
+                generationCb(i, this);
             }
         }
         if (completedCb) {
-            completedCb(this);   
+            completedCb(this);
         }
     }
 };

@@ -5,9 +5,7 @@ module.exports = {
         this.individualOptions = {
             minLength: 10,
             maxLength: 20,
-            geneFactory: function () {
-                return Math.random() < 0.5 ? 0 : 1;
-            }
+            geneFactory: intelligence.geneFactories.binaryNumber
         };
         callback();
     },

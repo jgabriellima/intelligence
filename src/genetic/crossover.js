@@ -18,25 +18,25 @@ var validateVariableLength = function (individuals) {
     }
 };
 
-var swapbody = function (chromosomeA, chromosomeB, index) {
+var swapGenes = function (chromosomeA, chromosomeB, index) {
     var temp = chromosomeA.body[index];
     chromosomeA.body[index] = chromosomeB.body[index];
     chromosomeB.body[index] = temp;
 };
 
-exports.onePointFixedStrategy = function (individuals) {
+exports.onePointFixed = function (individuals) {
     validateMinimumLength(individuals);
     validateFixedLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
     var cut = utils.randBetween(0, offspringA.body.length - 1);
     for (var i = cut; i < offspringA.body.length; i++) {
-        swapbody(offspringA, offspringB, i);
+        swapGenes(offspringA, offspringB, i);
     }
     return [offspringA, offspringB];
 };
 
-exports.twoPointFixedStrategy = function (individuals) {
+exports.twoPointFixed = function (individuals) {
     validateMinimumLength(individuals);
     validateFixedLength(individuals);
     var offspringA = individuals[0].copy();
@@ -45,27 +45,27 @@ exports.twoPointFixedStrategy = function (individuals) {
     var cutB = utils.randBetween(cutA, offspringA.body.length);
     for (var i = cutA; i < offspringA.body.length; i++) {
         if (i >= cutA && i < cutB) {
-            swapbody(offspringA, offspringB, i);
+            swapGenes(offspringA, offspringB, i);
         }
     }
     return [offspringA, offspringB];
 };
 
-exports.uniformCrossoverStrategy = function (individuals) {
+exports.uniform = function (individuals) {
     validateMinimumLength(individuals);
     validateFixedLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
     for (var i = 0; i < offspringA.body.length; i++) {
         if (utils.random() < 0.5) {
-            swapbody(offspringA, offspringB, i);
+            swapGenes(offspringA, offspringB, i);
         }
     }
     return [offspringA, offspringB];
 };
 
 
-exports.onePointVariableStrategy = function (individuals) {
+exports.onePointVariable = function (individuals) {
     validateMinimumLength(individuals);
     validateVariableLength(individuals);
     var offspringA = individuals[0].copy();
@@ -77,7 +77,7 @@ exports.onePointVariableStrategy = function (individuals) {
     return [offspringA, offspringB];
 };
 
-exports.twoPointVariableStrategy = function (individuals) {
+exports.twoPointVariable = function (individuals) {
     validateMinimumLength(individuals);
     validateVariableLength(individuals);
     var offspringA = individuals[0].copy();
@@ -93,4 +93,8 @@ exports.twoPointVariableStrategy = function (individuals) {
     offspringA.body.concat(individuals[0].body.slice(cutB, individuals[0].length - cutB));
     offspringB.body.concat(individuals[1].body.slice(cutD, individuals[1].length - cutD));
     return [offspringA, offspringB];
+};
+
+exports.onePointTree = function (individuals) {
+    var crossoverNodeA = individuals[0].get
 };

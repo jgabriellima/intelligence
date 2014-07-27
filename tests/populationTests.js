@@ -10,7 +10,7 @@ module.exports = {
                     return Math.random() < 0.5 ? 0 : 1;
                 }
             }),
-            crossoverStrategy: intelligence.onePointFixedStrategy,
+            crossoverStrategy: intelligence.crossoverStrategies.onePointFixed,
             fitnessFunction: function (individual) {
                 var fitness = 0;
                 for (var i = 0; i < individual.length; i++) {
@@ -38,6 +38,7 @@ module.exports = {
         test.ok(population.options.mutationRate ? true : false);
         test.ok(population.options.tournamentSize ? true : false);
         test.ok(population.options.selectionStrategy ? true : false);
+        test.ok(true);
         test.done();
     },
     population_initializeWithPopulationSize_populationSizeIsCorrect: function (test) {

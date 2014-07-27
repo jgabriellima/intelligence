@@ -1,18 +1,18 @@
 var utils = require('./../infrastructure/utils');
 
-exports.numberGeneFactory = function () {
+exports.number = function () {
     return utils.random();
 };
 
-exports.binaryNumberGeneFactory = function () {
+exports.binaryNumber = function () {
     return utils.random() < 0.5 ? 0 : 1;
 };
 
-exports.binaryStringGeneFactory = function () {
+exports.binaryString = function () {
     return utils.random() < 0.5 ? '0' : '1';
 };
 
-exports.alphabetGeneFactory = function () {
+exports.alphabet = function () {
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '.split('');
     return letters[utils.randBetween(0, letters.length)];
 };
