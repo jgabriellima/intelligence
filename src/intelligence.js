@@ -1,5 +1,6 @@
 exports.Population = require('./genetic/population').Population;
 exports.Individual = require('./genetic/individual').Individual;
+exports.GPTreeIndividual = require('./genetic/tree').GPTreeIndividual;
 
 // crossover
 exports.onePointFixedStrategy = require('./genetic/crossover').onePointFixedStrategy;

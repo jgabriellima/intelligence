@@ -1,6 +1,6 @@
 var utils = require('./../infrastructure/utils');
 
-exports.randomSelectionStrategy = function(chromosomes, options) {
+exports.randomSelectionStrategy = function (chromosomes, options) {
     var selections = [chromosomes[utils.randBetween(0, chromosomes.length)]];
     while (true) {
         var spouse = chromosomes[utils.randBetween(0, chromosomes.length)];
@@ -12,18 +12,18 @@ exports.randomSelectionStrategy = function(chromosomes, options) {
     return selections;
 }
 
-exports.rankSelectionStrategy = function(chromosomes, options) {
+exports.rankSelectionStrategy = function (chromosomes, options) {
     throw "not implemented";
 }
 
-exports.tournamentSelectionStrategy = function(chromosomes, options) {
+exports.tournamentSelectionStrategy = function (chromosomes, options) {
     var selections = [];
-    for (var i=0; i < 2; i++) {
+    for (var i = 0; i < 2; i++) {
         var tournament = [];
-        for (var j=0; j < options.tournamentSize; j++) {
+        for (var j = 0; j < options.tournamentSize; j++) {
             while (true) {
                 var selection = chromosomes[utils.randBetween(0, chromosomes.length)];
-                for (var k=0; k < tournament.length; k++) {
+                for (var k = 0; k < tournament.length; k++) {
                     if (selection === tournament[k]) {
                         continue;
                     }
@@ -34,12 +34,11 @@ exports.tournamentSelectionStrategy = function(chromosomes, options) {
         }
         var winner = tournament[0];
         if (options.minimise) {
-            for (var j=1; j < tournament.length; j++) {
+            for (var j = 1; j < tournament.length; j++) {
                 if (tournament[j].fitness < winner.fitness) winner = tournament[j];
             }
-        }
-        else {
-            for (var j=1; j < tournament.length; j++) {
+        } else {
+            for (var j = 1; j < tournament.length; j++) {
                 if (tournament[j].fitness > winner.fitness) winner = tournament[j]
             }
         }
@@ -48,6 +47,6 @@ exports.tournamentSelectionStrategy = function(chromosomes, options) {
     return selections;
 }
 
-exports.rouletteWheelSelectionStrategy = function(chromosomes, options) {
+exports.rouletteWheelSelectionStrategy = function (chromosomes, options) {
     throw "not implemented";
 }

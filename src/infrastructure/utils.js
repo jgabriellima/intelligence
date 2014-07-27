@@ -8,5 +8,5 @@ exports.random = function() {
 };
 
 exports.selectRandom = function(from) {
-    return from[randBetween(0, from.length)];
+    return from[exports.randBetween(0, from.length)];
 };

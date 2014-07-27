@@ -1,30 +1,27 @@
 var utils = require('./../infrastructure/utils');
 var selection = require('./selection');
 
-Population = function(options) {
+var Population = function (options) {
     this.options = options;
     this.individuals = null;
     this.validateRequiredOptions();
-    this.setDefaultOptionsIfNotRequired();
-	this.initialise();
+    this.setDefaultOptionsIfNotProvided();
+    this.initialise();
 };
 
-Population.prototype.validateRequiredOptions = function() {
+Population.prototype.validateRequiredOptions = function () {
     if (!this.options) {
         throw "options are required";
-    }
-    if (!this.options.baseIndividual) {
+    } else if (!this.options.baseIndividual) {
         throw "option 'baseIndividual' is required";
-    }
-    else if (!this.options.crossoverStrategy) {
+    } else if (!this.options.crossoverStrategy) {
         throw "option 'crossoverStrategy' is required";
-    }
-    else if (!this.options.fitnessFunction) {
+    } else if (!this.options.fitnessFunction) {
         throw "options 'fitnessFunction' is required";
     };
 };
 
-Population.prototype.setDefaultOptionsIfNotRequired = function() {
+Population.prototype.setDefaultOptionsIfNotProvided = function () {
     if (!this.options.populationSize) {
         this.options.populationSize = 100;
     }
@@ -42,27 +39,29 @@ Population.prototype.setDefaultOptionsIfNotRequired = function() {
     }
 };
 
-Population.prototype.initialise = function() {
+Population.prototype.initialise = function () {
     this.individuals = [];
-    for (var i=0; i < this.options.populationSize; i++) {
+    for (var i = 0; i < this.options.populationSize; i++) {
         this.individuals.push(this.options.baseIndividual.createNew());
     }
+    return this;
 };
 
-Population.prototype.evaluateFitness = function() {
-    for (var i=0; i < this.individuals.length; i++) {
+Population.prototype.evaluateFitness = function () {
+    for (var i = 0; i < this.individuals.length; i++) {
         var individual = this.individuals[i];
         if (individual.fitness === null) {
             individual.fitness = this.options.fitnessFunction(individual);
         }
     }
+    return this;
 };
 
-Population.prototype.crossover = function() {
+Population.prototype.crossover = function () {
     var limbo = [];
     if (this.options.elitism) {
         var elite = this.getFittestIndividuals(this.options.elitism);
-        for (var i=0; i < elite.length; i++) {
+        for (var i = 0; i < elite.length; i++) {
             limbo.push(elite[i].copy());
         }
     }
@@ -70,57 +69,70 @@ Population.prototype.crossover = function() {
         var selections = this.options.selectionStrategy(this.individuals, this.options);
         if (utils.random() < this.options.crossoverRate) {
             selections = this.options.crossoverStrategy(selections, this.options);
-            for (var i=0; i < selections.length; i++) selections[i].fitness = null;
+            for (var i = 0; i < selections.length; i++) selections[i].fitness = null;
         }
         limbo = limbo.concat(selections);
     }
     this.individuals = limbo;
+    return this;
 };
 
-Population.prototype.mutate = function() {
+Population.prototype.mutate = function () {
     var elite = this.options.elite ? this.getFittestIndividuals[this.options.elite] : null;
-    for (var i=0; i < this.individuals.length; i++) {
+    for (var i = 0; i < this.individuals.length; i++) {
         if (!elite || elite.indexOf(this.individuals[i]) > -1) {
             if (utils.random() < this.options.mutationRate) {
                 this.individuals[i].mutate();
             }
         }
     }
+    return this;
 };
 
-Population.prototype.getFittestIndividuals = function(numIndividuals) {
+Population.prototype.getFittestIndividuals = function (numIndividuals) {
     var self = this;
     this.evaluateFitness();
     if (!numIndividuals) numIndividuals = 1;
-    return this.individuals.sort(function(a, b) {
+    return this.individuals.sort(function (a, b) {
         if (a.fitness === null && b.fitness === null) {
             return 0;
-        }
-        else if (a.fitness === null) {
+        } else if (a.fitness === null) {
             return -1;
-        }
-        else if (b.fitness === null) {
+        } else if (b.fitness === null) {
             return 1;
-        }
-        else {
-            return self.options.isMinimise ? a.fitness - b.fitness : b.fitness - a.fitness; 
+        } else {
+            return self.options.isMinimise ? a.fitness - b.fitness : b.fitness - a.fitness;
         }
     }).slice(0, numIndividuals);
 };
 
-Population.prototype.getAverageFitness = function() {
+Population.prototype.getAverageFitness = function () {
     var sum = 0;
-    for (var i=0; i < this.individuals.length; i++) {
+    for (var i = 0; i < this.individuals.length; i++) {
         sum += this.individuals[i].fitness;
     };
     return sum / this.individuals.length;
 };
 
-Population.prototype.step = function() {
-    this.evaluateFitness();
-    this.crossover();
-    this.mutate();
-    this.evaluateFitness();
+Population.prototype.step = function () {
+    return this.evaluateFitness().crossover().mutate().evaluateFitness();
+};
+
+Population.prototype.train = function (numGenerations, generationCb, completedCb) {
+    if (numGenerations <= 0) {
+        throw "'numGenerations' must greater than 0";
+    }
+    else {
+        for (var i=0; i < numGenerations; i++) {
+            this.step();
+            if (generationCb) {
+                generationCb(i, this);   
+            }
+        }
+        if (completedCb) {
+            completedCb(this);   
+        }
+    }
 };
 
 exports.Population = Population;
