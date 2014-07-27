@@ -1,25 +1,25 @@
 {
-  "name": "intelligence",
-  "description": "Machine learning library written in javascript",
-  "version": "0.0.1",
-  "private": false,
-  "dependencies": {
-    "nodeunit": "0.9.0"
-  },
-  "main": "src/intelligence.js",
-  "directories": {
-    "example": "examples",
-    "test": "tests"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "nodeunit tests"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Sherlock92/intelligencejs.git"
-  },
-  "keywords": [
+    "name": "intelligence",
+    "description": "Machine learning library written in javascript",
+    "version": "0.0.2",
+    "private": false,
+    "dependencies": {
+        "nodeunit": "0.9.0"
+    },
+    "main": "src/intelligence.js",
+    "directories": {
+        "example": "examples",
+        "test": "tests"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "nodeunit tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Sherlock92/intelligencejs.git"
+    },
+    "keywords": [
     "machine-learning",
     "ai",
     "genetic-algorithm",
@@ -27,10 +27,10 @@
     "neural-network",
     "artificial-intelligence"
   ],
-  "author": "Daniel Holmes",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Sherlock92/intelligencejs/issues"
-  },
-  "homepage": "https://github.com/Sherlock92/intelligencejs"
+    "author": "Daniel Holmes",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Sherlock92/intelligencejs/issues"
+    },
+    "homepage": "https://github.com/Sherlock92/intelligencejs"
 }
