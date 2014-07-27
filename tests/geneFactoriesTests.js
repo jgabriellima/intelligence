@@ -1,0 +1,1 @@
+var intelligence = require('./../src/intelligence');

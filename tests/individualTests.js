@@ -5,7 +5,7 @@ module.exports = {
         this.individualOptions = {
             minLength: 10,
             maxLength: 20,
-            geneFactory: intelligence.geneFactories.binaryNumber
+            geneFactory: intelligence.geneFactories.alphabet
         };
         callback();
     },
@@ -27,7 +27,7 @@ module.exports = {
     initialize_afterConstruction_resetsBody: function (test) {
         var ind = new intelligence.Individual(this.individualOptions);
         var prevBody = ind.body.slice(0);
-        ind.initialize();
+        ind.initialise();
         test.notDeepEqual(JSON.stringify(prevBody), JSON.stringify(ind.body));
         test.done();
     },
@@ -48,7 +48,7 @@ module.exports = {
     copy_whenBodyHasBeenSet_bodyIsEqual: function (test) {
         var ind = new intelligence.Individual(this.individualOptions);
         var copy = ind.copy();
-        test.deepEqual(JSON.stringify(ind), JSON.stringify(copy));
+        test.ok(JSON.stringify(ind) === JSON.stringify(copy));
         test.done();
     }
 };

@@ -5,7 +5,7 @@ var Individual = function (options) {
     this.fitness = null;
     this.options = options;
     this.validateRequiredOptions();
-    this.initialize();
+    this.initialise();
 };
 
 Individual.prototype.validateRequiredOptions = function () {
@@ -20,7 +20,7 @@ Individual.prototype.validateRequiredOptions = function () {
     }
 };
 
-Individual.prototype.initialize = function () {
+Individual.prototype.initialise = function () {
     var length = utils.randBetween(this.options.minLength, this.options.maxLength);
     this.body = [];
     for (var i = 0; i < length; i++) {
@@ -37,7 +37,7 @@ Individual.prototype.copy = function () {
 
 Individual.prototype.createNew = function () {
     var newIndividual = this.copy();
-    newIndividual.initialize();
+    newIndividual.initialise();
     return newIndividual;
 };
 

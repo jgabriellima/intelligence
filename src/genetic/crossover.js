@@ -1,5 +1,9 @@
 var utils = require('./../infrastructure/utils');
 
+exports.setUtilsModule = function (utilsModule) {
+    utils = utilsModule;
+};
+
 var validateMinimumLength = function (individuals) {
     if (individuals[0].body.length < 2 || individuals[0].body.length < 2) {
         throw "individuals must have at least two body for crossover";
@@ -41,10 +45,10 @@ exports.twoPointFixed = function (individuals) {
     validateFixedLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
-    var cutA = utils.randBetween(0, offspringA.body.length - 1);
-    var cutB = utils.randBetween(cutA, offspringA.body.length);
+    var cutA = utils.randBetween(0, offspringA.body.length - 2);
+    var cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
     for (var i = cutA; i < offspringA.body.length; i++) {
-        if (i >= cutA && i < cutB) {
+        if (i < cutB) {
             swapGenes(offspringA, offspringB, i);
         }
     }
@@ -64,7 +68,6 @@ exports.uniform = function (individuals) {
     return [offspringA, offspringB];
 };
 
-
 exports.onePointVariable = function (individuals) {
     validateMinimumLength(individuals);
     validateVariableLength(individuals);
@@ -72,8 +75,8 @@ exports.onePointVariable = function (individuals) {
     var offspringB = individuals[1].copy();
     var cutA = utils.randBetween(0, offspringA.body.length);
     var cutB = utils.randBetween(0, offspringB.body.length);
-    offspringA.body = individuals[0].body.slice(0, cutA).concat(individuals[1].slice(cutB, individuals[1].length));
-    offspringB.body = individuals[1].body.clise(0, cutB).concat(individuals[0].slice(cutA, individuals[0].length));
+    offspringA.body = individuals[0].body.slice(0, cutA).concat(individuals[1].body.slice(cutB, individuals[1].body.length));
+    offspringB.body = individuals[1].body.slice(0, cutB).concat(individuals[0].body.slice(cutA, individuals[0].body.length));
     return [offspringA, offspringB];
 };
 
@@ -82,19 +85,15 @@ exports.twoPointVariable = function (individuals) {
     validateVariableLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
-    var cutA = utils.randBetween(0, offspringA.body.length - 1);
-    var cutB = utils.randBetween(cutA, offspringA.body.length);
-    var cutC = utils.randBetween(0, offspringB.body.length - 1);
-    var cutD = utils.randBetween(cutC, offspringB.body.length);
+    var cutA = utils.randBetween(0, offspringA.body.length - 2);
+    var cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
+    var cutC = utils.randBetween(0, offspringB.body.length - 2);
+    var cutD = utils.randBetween(cutC + 1, offspringB.body.length - 1);
     offspringA.body = individuals[0].body.slice(0, cutA);
     offspringB.body = individuals[1].body.slice(0, cutC);
-    offspringA.body.concat(individuals[1].slice(cutC, cutD - cutC));
-    offspringB.body.concat(individuals[0].slice(cutA, cutB - cutA));
-    offspringA.body.concat(individuals[0].body.slice(cutB, individuals[0].length - cutB));
-    offspringB.body.concat(individuals[1].body.slice(cutD, individuals[1].length - cutD));
+    offspringA.body.concat(individuals[1].body.slice(cutC, cutD - cutC));
+    offspringB.body.concat(individuals[0].body.slice(cutA, cutB - cutA));
+    offspringA.body.concat(individuals[0].body.slice(cutB, individuals[0].body.length - cutB));
+    offspringB.body.concat(individuals[1].body.slice(cutD, individuals[1].body.length - cutD));
     return [offspringA, offspringB];
-};
-
-exports.onePointTree = function (individuals) {
-    var crossoverNodeA = individuals[0].get
 };
