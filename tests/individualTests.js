@@ -24,6 +24,18 @@ module.exports = {
         test.ok(ind.body ? true : false);
         test.done();
     },
+    individual_initializedWithFixedLengthBody_bodySizeIsCorrect: function (test) {
+        this.individualOptions.minLength = 20;
+        this.individualOptions.maxLength = 20;
+        var ind = new intelligence.Individual(this.individualOptions);
+        test.ok(ind.body.length === 20);
+        test.done();
+    },
+    individual_initializedWithVariableLengthBody_bodySizeIsWithinBounds: function (test) {
+        var ind = new intelligence.Individual(this.individualOptions);
+        test.ok(ind.body.length >= 10 && ind.body.length <= 20);
+        test.done();
+    },
     initialize_afterConstruction_resetsBody: function (test) {
         var ind = new intelligence.Individual(this.individualOptions);
         var prevBody = ind.body.slice(0);

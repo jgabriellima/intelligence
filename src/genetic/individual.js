@@ -21,7 +21,7 @@ Individual.prototype.validateRequiredOptions = function () {
 };
 
 Individual.prototype.initialise = function () {
-    var length = utils.randBetween(this.options.minLength, this.options.maxLength);
+    var length = utils.randBetween(this.options.minLength, this.options.maxLength + 1);
     this.body = [];
     for (var i = 0; i < length; i++) {
         this.body.push(this.options.geneFactory());

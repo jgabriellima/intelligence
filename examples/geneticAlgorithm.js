@@ -23,7 +23,7 @@ var fitnessFunction = function (individual) {
 // fitness function rewards individuals the closer they are to 'hello world'
 var population = new intelligence.Population({
     baseIndividual: baseIndividual,
-    crossoverStrategy: intelligence.crossoverStrategies.onePointFixed,
+    crossoverStrategy: intelligence.crossoverStrategies.twoPointFixed,
     fitnessFunction: fitnessFunction,
     elitism: 2,
     populationSize: 75,
