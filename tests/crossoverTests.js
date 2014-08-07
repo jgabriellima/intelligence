@@ -1,5 +1,4 @@
 var intelligence = require('./../src/intelligence');
-var utils = require('./../src/infrastructure/utils');
 var proxyquire = require("proxyquire");
 
 module.exports = {
@@ -23,18 +22,21 @@ module.exports = {
         callback();
     },
     tearDown: function (callback) {
+        this.utilsMock = null;
+        this.intelligence = null;
         this.individualA = null;
         this.individualB = null;
+        this.variableA = null;
+        this.variableB = null;
         callback();
     },
     onePointFixed_whenCalled_parentsAreUnchanged: function (test) {
         var copyA = this.individualA.copy();
         var copyB = this.individualB.copy();
         var offspring = this.crossoverStrategies.onePointFixed([this.individualA, this.individualB]);
-        test.ok(utils.arrayEqual(copyA.body, this.individualA.body));
-        test.ok(utils.arrayEqual(copyB.body, this.individualB.body));
-        test.
-        done();
+        test.ok(intelligence.utils.arrayEqual(copyA.body, this.individualA.body));
+        test.ok(intelligence.utils.arrayEqual(copyB.body, this.individualB.body));
+        test.done();
     },
     onePointFixed_whenCalled_offspringAreSameLength: function (test) {
         var offspring = this.crossoverStrategies.onePointFixed([this.individualA, this.individualB]);
@@ -50,8 +52,8 @@ module.exports = {
     },
     onePointFixed_whenCalled_offspringHaveChanged: function (test) {
         var offspring = this.crossoverStrategies.onePointFixed([this.individualA, this.individualB]);
-        test.ok(!utils.arrayEqual(offspring[0].body, this.individualA.body));
-        test.ok(!utils.arrayEqual(offspring[1].body, this.individualB.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[0].body, this.individualA.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[1].body, this.individualB.body));
         test.done();
     },
     onePointFixed_whenCrossoverPointIsKnown_correctElementsAreSwapped: function (test) {
@@ -74,8 +76,8 @@ module.exports = {
         var copyA = this.individualA.copy();
         var copyB = this.individualB.copy();
         var offspring = this.crossoverStrategies.twoPointFixed([this.individualA, this.individualB]);
-        test.ok(utils.arrayEqual(copyA.body, this.individualA.body));
-        test.ok(utils.arrayEqual(copyB.body, this.individualB.body));
+        test.ok(intelligence.utils.arrayEqual(copyA.body, this.individualA.body));
+        test.ok(intelligence.utils.arrayEqual(copyB.body, this.individualB.body));
         test.done();
     },
     twoPointFixed_whenCalled_offspringHaveChanged: function (test) {
@@ -92,8 +94,8 @@ module.exports = {
     },
     twoPointFixed_whenCalled_offspringHaveChanged: function (test) {
         var offspring = this.crossoverStrategies.twoPointFixed([this.individualA, this.individualB]);
-        test.ok(!utils.arrayEqual(offspring[0].body, this.individualA.body));
-        test.ok(!utils.arrayEqual(offspring[1].body, this.individualB.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[0].body, this.individualA.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[1].body, this.individualB.body));
         test.done();
     },
     twoPointFixed_whenCrossoverPointIsKnown_correctElementsAreSwapped: function (test) {
@@ -125,8 +127,8 @@ module.exports = {
         var copyA = this.individualA.copy();
         var copyB = this.individualB.copy();
         var offspring = this.crossoverStrategies.uniform([this.individualA, this.individualB]);
-        test.ok(utils.arrayEqual(copyA.body, this.individualA.body));
-        test.ok(utils.arrayEqual(copyB.body, this.individualB.body));
+        test.ok(intelligence.utils.arrayEqual(copyA.body, this.individualA.body));
+        test.ok(intelligence.utils.arrayEqual(copyB.body, this.individualB.body));
         test.done();
     },
     uniform_whenCalled_offspringAreSameLength: function (test) {
@@ -143,8 +145,8 @@ module.exports = {
     },
     uniform_whenCalled_offspringHaveChanged: function (test) {
         var offspring = this.crossoverStrategies.uniform([this.individualA, this.individualB]);
-        test.ok(!utils.arrayEqual(offspring[0].body, this.individualA.body));
-        test.ok(!utils.arrayEqual(offspring[1].body, this.individualB.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[0].body, this.individualA.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[1].body, this.individualB.body));
         test.done();
     },
     uniform_whenCrossoverPointIsKnown_correctElementsAreSwapped: function (test) {
@@ -176,20 +178,20 @@ module.exports = {
         var copyA = this.variableA.copy();
         var copyB = this.variableB.copy();
         var offspring = this.crossoverStrategies.onePointVariable([this.variableA, this.variableB]);
-        test.ok(utils.arrayEqual(copyA.body, this.variableA.body));
-        test.ok(utils.arrayEqual(copyB.body, this.variableB.body));
+        test.ok(intelligence.utils.arrayEqual(copyA.body, this.variableA.body));
+        test.ok(intelligence.utils.arrayEqual(copyB.body, this.variableB.body));
         test.done();
     },
     onePointVariable_whenCalledWithFixedLengthIndividuals_throws: function (test) {
         test.throws(function () {
-            var offspring = intelligence.crossoverStrategies.onePointVariable([this.individualA, this.individualB]);
+            var offspring = this.crossoverStrategies.onePointVariable([this.individualA, this.individualB]);
         });
         test.done();
     },
     onePointVariable_whenCalled_offspringHaveChanged: function (test) {
         var offspring = this.crossoverStrategies.onePointVariable([this.variableA, this.variableB]);
-        test.ok(!utils.arrayEqual(offspring[0].body, this.variableA.body));
-        test.ok(!utils.arrayEqual(offspring[1].body, this.variableB.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[0].body, this.variableA.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[1].body, this.variableB.body));
         test.done();
     },
     onePointVariable_whenCrossoverPointIsKnown_correctElementsAreSwapped: function (test) {
@@ -225,8 +227,8 @@ module.exports = {
         var copyA = this.variableA.copy();
         var copyB = this.variableB.copy();
         var offspring = this.crossoverStrategies.twoPointVariable([this.variableA, this.variableB]);
-        test.ok(utils.arrayEqual(copyA.body, this.variableA.body));
-        test.ok(utils.arrayEqual(copyB.body, this.variableB.body));
+        test.ok(intelligence.utils.arrayEqual(copyA.body, this.variableA.body));
+        test.ok(intelligence.utils.arrayEqual(copyB.body, this.variableB.body));
         test.done();
     },
     twoPointVariable_whenCalledWithFixedLengthIndividuals_throws: function (test) {
@@ -237,8 +239,8 @@ module.exports = {
     },
     twoPointVariable_whenCalled_offspringHaveChanged: function (test) {
         var offspring = this.crossoverStrategies.twoPointVariable([this.variableA, this.variableB]);
-        test.ok(!utils.arrayEqual(offspring[0].body, this.variableA.body));
-        test.ok(!utils.arrayEqual(offspring[1].body, this.variableB.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[0].body, this.variableA.body));
+        test.ok(!intelligence.utils.arrayEqual(offspring[1].body, this.variableB.body));
         test.done();
     },
     twoPointVariable_whenCrossoverPointIsKnown_correctElementsAreSwapped: function (test) {

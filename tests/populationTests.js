@@ -27,7 +27,7 @@ module.exports = {
     },
     population_initializeMissingOptions_throws: function (test) {
         test.throws(function () {
-            var x = new intelligence.Population({});
+            var x = Object.create(intelligence.Population).ctor();
         });
         test.done();
     },

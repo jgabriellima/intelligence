@@ -3,8 +3,8 @@ var intelligence = require('./../src/intelligence');
 // creqte an individual whos body is a fixed length of 12
 // geneFactory returns a random letter in the alphabet
 var baseIndividual = new intelligence.Individual({
-    minLength: 12,
-    maxLength: 12,
+    minLength: 11,
+    maxLength: 11,
     geneFactory: intelligence.geneFactories.alphabet
 });
 
@@ -30,9 +30,8 @@ var population = new intelligence.Population({
     tournamentSize: 2,
 });
 
-
-// this function is called each time a generation completed
-var generationCompleted = function (generationNumber, population) {
+// this function is called each time a single generation has completed
+var generationCompleted = function (population, generationNumber) {
     if (generationNumber % 10 === 0) {
         var best = population.getFittestIndividuals(1)[0].body;
         console.log("Gen: " + generationNumber + ", best: " + best.join(''));
@@ -40,10 +39,13 @@ var generationCompleted = function (generationNumber, population) {
 };
 
 // this function is called when training completes
-var trainCompleted = function (population) {
+var trainingCompleted = function (population) {
     var best = population.getFittestIndividuals(1)[0].body;
     console.log("Training completed, best: " + best.join(''));
 };
 
+population.on('generationCompleted', generationCompleted);
+population.on('trainingCompleted', trainingCompleted);
+
 // train the population over 100 generations
-population.train(100, generationCompleted, trainCompleted);
+population.train(100);

@@ -1,4 +1,5 @@
 var utils = require('./../infrastructure/utils');
+var clone = require('clone');
 
 var Individual = function (options) {
     this.body = null;
@@ -6,6 +7,7 @@ var Individual = function (options) {
     this.options = options;
     this.validateRequiredOptions();
     this.initialise();
+    return this;
 };
 
 Individual.prototype.validateRequiredOptions = function () {
@@ -24,15 +26,12 @@ Individual.prototype.initialise = function () {
     var length = utils.randBetween(this.options.minLength, this.options.maxLength + 1);
     this.body = [];
     for (var i = 0; i < length; i++) {
-        this.body.push(this.options.geneFactory());
+        this.body.push(this.options.geneFactory(this));
     }
 };
 
 Individual.prototype.copy = function () {
-    var copied = new Individual(this.options);
-    copied.body = this.body.slice(0);
-    copied.fitness = this.fitness;
-    return copied;
+    return clone(this);
 };
 
 Individual.prototype.createNew = function () {

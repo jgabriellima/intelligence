@@ -1,5 +1,7 @@
+var util = require('util');
+var events = require('events');
 var utils = require('./../infrastructure/utils');
-var intelligence = require('./../intelligence');
+var selectionStrategies = require('./selectionStrategies');
 
 var Population = function (options) {
     this.options = options;
@@ -7,6 +9,8 @@ var Population = function (options) {
     this.validateRequiredOptions();
     this.setDefaultOptionsIfNotProvided();
     this.initialise();
+    events.EventEmitter.call(this);
+    return this;
 };
 
 Population.prototype.validateRequiredOptions = function () {
@@ -35,7 +39,7 @@ Population.prototype.setDefaultOptionsIfNotProvided = function () {
         this.options.tournamentSize = Math.ceil(this.options.populationSize * 0.05);
     }
     if (!this.options.selectionStrategy) {
-        this.options.selectionStrategy = intelligence.selectionStrategies.tournament;
+        this.options.selectionStrategy = selectionStrategies.tournament;
     }
 };
 
@@ -124,14 +128,10 @@ Population.prototype.train = function (numGenerations, generationCb, completedCb
     } else {
         for (var i = 0; i < numGenerations; i++) {
             this.step();
-            if (generationCb) {
-                generationCb(i, this);
-            }
-        }
-        if (completedCb) {
-            completedCb(this);
+            this.emit('generationCompleted', this, i);
         }
     }
+    this.emit('trainingCompleted', this);
 };
 
 exports.Population = Population;
