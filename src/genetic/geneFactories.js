@@ -1,6 +1,6 @@
 var utils = require('./../infrastructure/utils');
-var FunctionNode = require('./linear/functionNode').FunctionNode;
-var ConditionalNode = require('./linear/conditionalNode').ConditionalNode;
+var LinearFunctionNode = require('./linear/linearFunctionNode').LinearFunctionNode;
+var LinearConditionalNode = require('./linear/linearConditionalNode').LinearConditionalNode;
 
 exports.number = function () {
     return utils.random();
@@ -25,9 +25,9 @@ exports.linearNode = function (individual) {
     var functionProbability = options.functionSet.length / totalFunctions;
     if (utils.random() < functionProbability) {
         var func = utils.selectRandom(options.functionSet)
-        return new FunctionNode(func, options.registerSet);
+        return new LinearFunctionNode(func, options.registerSet);
     } else {
         var func = utils.selectRandom(options.conditionalSet)
-        return new ConditionalNode(func, options.registerSet);
+        return new LinearConditionalNode(func, options.registerSet);
     }
 };

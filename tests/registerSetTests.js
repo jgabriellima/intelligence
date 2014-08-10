@@ -9,7 +9,6 @@ module.exports = {
         cb();
     },
     tearDown: function (cb) {
-        this.registerSetOptions = null;
         cb();
     },
     registerSet_whenOptionsMissing_throws: function (test) {
@@ -63,6 +62,5 @@ module.exports = {
         x.setInputs(inputs);
         test.equal(x.inputRegisters, inputs);
         test.done();
-    },
-
+    }
 };

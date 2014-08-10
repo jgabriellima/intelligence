@@ -22,7 +22,6 @@ module.exports = {
         cb();
     },
     tearDown: function (cb) {
-        this.populationOptions = null;
         cb();
     },
     population_initializeMissingOptions_throws: function (test) {

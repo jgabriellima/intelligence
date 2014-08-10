@@ -10,7 +10,6 @@ module.exports = {
         callback();
     },
     tearDown: function (callback) {
-        this.individualOptions = null;
         callback();
     },
     individual_initializeMissingOptions_throws: function (test) {

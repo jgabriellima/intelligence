@@ -2,8 +2,8 @@ var clone = require('clone');
 var utils = require('./../../infrastructure/utils');
 var Individual = require('./../individual').Individual;
 var RegisterSet = require('./registerSet').RegisterSet;
-var FunctionNode = require('./functionNode').FunctionNode;
-var ConditionalNode = require('./conditionalNode').ConditionalNode;
+var LinearFunctionNode = require('./linearFunctionNode').LinearFunctionNode;
+var LinearConditionalNode = require('./linearConditionalNode').LinearConditionalNode;
 
 var LinearIndividual = function (options) {
     this.options = options;
@@ -34,24 +34,23 @@ LinearIndividual.prototype.setDefaultOptionsIfNotProvided = function () {
     }
 };
 
-LinearIndividual.prototype.evaluate = function (inputs) {
+LinearIndividual.prototype.execute = function (inputs) {
     var i = 0;
     this.options.registerSet.setInputs(inputs);
     while (i < this.body.length) {
         var node = this.body[i];
-        if (node instanceof FunctionNode) {
+        if (node instanceof LinearFunctionNode) {
             node.execute(this.options.registerSet);
-        } else if (node instanceof ConditionalNode) {
+        } else if (node instanceof LinearConditionalNode) {
             if (!node.execute(this.options.registerSet)) {
-                while (this.body[i] instanceof ConditionalNode) {
+                while (this.body[i] instanceof LinearConditionalNode) {
                     i++;
                 }
-                i++;
-                continue;
             }
         } else {
             throw "unknown node type";
         }
+        i++;
     }
     return this.options.registerSet.getOutputNodes();
 };

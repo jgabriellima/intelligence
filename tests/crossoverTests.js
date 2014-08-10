@@ -22,12 +22,6 @@ module.exports = {
         callback();
     },
     tearDown: function (callback) {
-        this.utilsMock = null;
-        this.intelligence = null;
-        this.individualA = null;
-        this.individualB = null;
-        this.variableA = null;
-        this.variableB = null;
         callback();
     },
     onePointFixed_whenCalled_parentsAreUnchanged: function (test) {
