@@ -1,7 +1,7 @@
 {
     "name": "intelligence",
     "description": "Machine learning library written in javascript",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "private": false,
     "dependencies": {
         "nodeunit": "0.9.0",
