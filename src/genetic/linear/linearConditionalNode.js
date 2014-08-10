@@ -1,13 +1,14 @@
 var LinearGPNode = require('./linearGPNode').LinearGPNode;
+var utils = require('./../../infrastructure/utils');
 
 var LinearConditionalNode = function (func, registers) {
     LinearGPNode.call(this, func, registers);
 };
 
-LinearConditionalNode.prototype = Object.create(LinearGPNode.prototype);
+utils.inherits(LinearConditionalNode, LinearGPNode);
 
 LinearConditionalNode.prototype.toString = function () {
-    return "if ({0}({1}))".format(this.func.name, this.getArgumentsString());
+    return utils.formatString("if ({0}({1}))", [this.func.name, this.getArgumentsString()]);
 };
 
 LinearConditionalNode.prototype.execute = function (registerSet) {

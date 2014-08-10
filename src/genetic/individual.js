@@ -1,5 +1,6 @@
 var utils = require('./../infrastructure/utils');
 var clone = require('clone');
+var events = require('events');
 
 var Individual = function (options) {
     this.body = null;
@@ -41,7 +42,7 @@ Individual.prototype.createNew = function () {
 };
 
 Individual.prototype.mutate = function () {
-    this.body[utils.randBetween(0, this.body.length)] = this.options.geneFactory();
+    this.body[utils.randBetween(0, this.body.length)] = this.options.geneFactory(this);
     this.fitness = null;
 };
 

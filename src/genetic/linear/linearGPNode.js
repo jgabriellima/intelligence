@@ -13,11 +13,11 @@ LinearGPNode.prototype.setInputRegisters = function (registerSet) {
     this.inputRegisters = [];
     for (var i = 0; i < this.func.length; i++) {
         var flag;
-        if (random < registerSet.inputRegisters.length / totalRegisters) {
+        if (random < registerSet.input.length / totalRegisters) {
             flag = registerReference.INPUT;
-        } else if (random < registerSet.constantRegisters.length / totalRegisters) {
+        } else if (random < registerSet.const.length / totalRegisters) {
             flag = registerReference.CONSTANT;
-        } else if (random < registerSet.calculationRegisters.length / totalRegisters) {
+        } else if (random < registerSet.calc.length / totalRegisters) {
             flag = registerReference.CALCULATION;
         } else {
             flag = registerReference.OUTPUT;

@@ -20,25 +20,25 @@ module.exports = {
     },
     getValue_whenIsInput_returnsInputValue: function (test) {
         var r = new registerReference.RegisterReference(registerReference.INPUT, this.registerSet);
-        var expectedValue = this.registerSet.inputRegisters[r.index];
+        var expectedValue = this.registerSet.input[r.index];
         test.equal(r.getValue(this.registerSet), expectedValue);
         test.done();
     },
-    getValue_whenIsConstant_returnsInputValue: function (test) {
+    getValue_whenIsConstant_returnsConstantValue: function (test) {
         var r = new registerReference.RegisterReference(registerReference.CONSTANT, this.registerSet);
-        var expectedValue = this.registerSet.constantRegisters[r.index];
+        var expectedValue = this.registerSet.const[r.index];
         test.equal(r.getValue(this.registerSet), expectedValue);
         test.done();
     },
-    getValue_whenIsCalculation_returnsInputValue: function (test) {
+    getValue_whenIsCalculation_returnsCalculationValue: function (test) {
         var r = new registerReference.RegisterReference(registerReference.CALCULATION, this.registerSet);
-        var expectedValue = this.registerSet.calculationRegisters[r.index];
+        var expectedValue = this.registerSet.calc[r.index];
         test.equal(r.getValue(this.registerSet), expectedValue);
         test.done();
     },
-    getValue_whenIsOutput_returnsInputValue: function (test) {
+    getValue_whenIsOutput_returnsOutputValue: function (test) {
         var r = new registerReference.RegisterReference(registerReference.OUTPUT, this.registerSet);
-        var expectedValue = this.registerSet.outputRegisters[r.index];
+        var expectedValue = this.registerSet.out[r.index];
         test.equal(r.getValue(this.registerSet), expectedValue);
         test.done();
     },

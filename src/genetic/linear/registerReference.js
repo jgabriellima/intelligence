@@ -6,13 +6,13 @@ var RegisterReference = function (flag, registerSet) {
     }
     this.flag = flag;
     if (this.flag === exports.INPUT) {
-        this.index = utils.randBetween(0, registerSet.inputRegisters.length);
+        this.index = utils.randBetween(0, registerSet.input.length);
     } else if (this.flag === exports.CONSTANT) {
-        this.index = utils.randBetween(0, registerSet.constantRegisters.length);
+        this.index = utils.randBetween(0, registerSet.const.length);
     } else if (this.flag === exports.CALCULATION) {
-        this.index = utils.randBetween(0, registerSet.calculationRegisters.length);
+        this.index = utils.randBetween(0, registerSet.calc.length);
     } else {
-        this.index = utils.randBetween(0, registerSet.outputRegisters.length);
+        this.index = utils.randBetween(0, registerSet.out.length);
     }
     return this;
 };
@@ -31,11 +31,11 @@ RegisterReference.prototype.setValue = function (registerSet, value) {
 };
 
 RegisterReference.prototype.toString = function () {
-    return "registerSet.{0}[{1}]".format(this.flag, this.index);
+    return utils.formatString("registerSet.{0}[{1}]", [this.flag, this.index]);
 };
 
 exports.RegisterReference = RegisterReference;
-exports.INPUT = 'inputRegisters';
-exports.CONSTANT = 'constantRegisters';
-exports.CALCULATION = 'calculationRegisters';
-exports.OUTPUT = 'outputRegisters';
+exports.INPUT = 'input';
+exports.CONSTANT = 'const';
+exports.CALCULATION = 'calc';
+exports.OUTPUT = 'out';

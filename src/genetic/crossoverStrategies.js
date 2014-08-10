@@ -79,10 +79,21 @@ exports.twoPointVariable = function (individuals) {
     validateVariableLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
-    var cutA = utils.randBetween(0, offspringA.body.length - 2);
-    var cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
-    var cutC = utils.randBetween(0, offspringB.body.length - 2);
-    var cutD = utils.randBetween(cutC + 1, offspringB.body.length - 1);
+    var cutA, cutB, cutC, cutD;
+    while (true) {
+        cutA = utils.randBetween(0, offspringA.body.length - 2);
+        cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
+        cutC = utils.randBetween(0, offspringB.body.length - 2);
+        cutD = utils.randBetween(cutC + 1, offspringB.body.length - 1);
+        var newSizeA = offspringA.body.length - (cutB - cutA) + (cutD - cutC);
+        var newSizeB = offspringB.body.length - (cutD - cutC) + (cutB - cutA);
+        if (newSizeA <= offspringA.options.maxLength &&
+            newSizeA >= offspringA.options.minLength &&
+            newSizeB <= offspringB.options.maxLength &&
+            newSizeB >= offspringB.options.minLength) {
+            break;
+        }
+    }
     offspringA.body = individuals[0].body.slice(0, cutA);
     offspringB.body = individuals[1].body.slice(0, cutC);
     offspringA.body = offspringA.body.concat(individuals[1].body.slice(cutC, cutD));

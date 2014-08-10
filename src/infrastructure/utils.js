@@ -1,3 +1,5 @@
+var util = require('util');
+
 exports.randBetween = function (min, max) {
     var val = Math.floor(Math.random() * (max - min + 1) + min);
     return val === max ? val - 1 : val;
@@ -23,4 +25,14 @@ exports.arrayEqual = function (a, b) {
         if (a[i] !== b[i]) return false;
     }
     return true;
+};
+
+exports.formatString = function (stringVar, argsArray) {
+    return stringVar.replace(/{(\d+)}/g, function (match, number) {
+        return typeof argsArray[number] != 'undefined' ? argsArray[number] : match;
+    });
+};
+
+exports.inherits = function (constructor, superConstructor) {
+    util.inherits(constructor, superConstructor);
 };

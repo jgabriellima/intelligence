@@ -8,10 +8,10 @@ var LinearFunctionNode = function (func, registerSet) {
     this.setTargetRegister(registerSet);
 };
 
-LinearFunctionNode.prototype = Object.create(LinearGPNode.prototype);
+utils.inherits(LinearFunctionNode, LinearGPNode);
 
 LinearFunctionNode.prototype.setTargetRegister = function (registerSet) {
-    var pCalulcation = registerSet.calculationRegisters.length / registerSet.getTotalWritableRegisters();
+    var pCalulcation = registerSet.calc.length / registerSet.getTotalWritableRegisters();
     if (utils.random() < pCalulcation) {
         this.targetRegister = new registerReference.RegisterReference(registerReference.CALCULATION, registerSet);
     } else {
@@ -24,7 +24,8 @@ LinearFunctionNode.prototype.execute = function (registerSet) {
 };
 
 LinearFunctionNode.prototype.toString = function () {
-    return "{0} = {1}({2});".format(this.targetRegister.toString(), this.func.name, this.getArgumentsString());
+    var argumentsArray = [this.targetRegister.toString(), this.func.name, this.getArgumentsString()];
+    return utils.formatString("{0} = {1}({2});", argumentsArray);
 };
 
 exports.LinearFunctionNode = LinearFunctionNode;

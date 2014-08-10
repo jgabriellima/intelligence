@@ -1,4 +1,3 @@
-var util = require('util');
 var events = require('events');
 var utils = require('./../infrastructure/utils');
 var selectionStrategies = require('./selectionStrategies');
@@ -12,6 +11,8 @@ var Population = function (options) {
     events.EventEmitter.call(this);
     return this;
 };
+
+utils.inherits(Population, events.EventEmitter);
 
 Population.prototype.validateRequiredOptions = function () {
     if (!this.options) {
@@ -62,6 +63,7 @@ Population.prototype.evaluateFitness = function () {
 };
 
 Population.prototype.crossover = function () {
+    this.evaluateFitness();
     var limbo = [];
     if (this.options.elitism) {
         var elite = this.getFittestIndividuals(this.options.elitism);
@@ -82,6 +84,7 @@ Population.prototype.crossover = function () {
 };
 
 Population.prototype.mutate = function () {
+    this.evaluateFitness();
     var elite = this.options.elite ? this.getFittestIndividuals[this.options.elite] : null;
     for (var i = 0; i < this.individuals.length; i++) {
         if (!elite || elite.indexOf(this.individuals[i]) > -1) {
@@ -94,6 +97,7 @@ Population.prototype.mutate = function () {
 };
 
 Population.prototype.getFittestIndividuals = function (numIndividuals) {
+    this.evaluateFitness();
     var self = this;
     this.evaluateFitness();
     if (!numIndividuals) numIndividuals = 1;
@@ -111,10 +115,12 @@ Population.prototype.getFittestIndividuals = function (numIndividuals) {
 };
 
 Population.prototype.getAverageFitness = function () {
+    this.evaluateFitness();
     var sum = 0;
     for (var i = 0; i < this.individuals.length; i++) {
         sum += this.individuals[i].fitness;
     };
+    console.log(sum, this.individuals.length);
     return sum / this.individuals.length;
 };
 

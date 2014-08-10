@@ -3,27 +3,27 @@ var clone = require('clone');
 
 var RegisterSet = function (options) {
     this.options = options;
-    this.inputRegisters = [];
-    this.constantRegisters = [];
-    this.calculationRegisters = [];
-    this.outputRegisters = [];
+    this.input = [];
+    this.const = [];
+    this.calc = [];
+    this.out = [];
     this.validate();
 };
 
 RegisterSet.prototype.reset = function () {
     var i;
-    this.inputRegisters = [];
-    this.constantRegisters = [];
-    this.calculationRegisters = [];
-    this.outputRegisters = [];
+    this.input = [];
+    this.const = [];
+    this.calc = [];
+    this.out = [];
     for (i = this.options.constMin; i < this.options.constMax; i++) {
-        this.constantRegisters.push(i / this.options.constDivider);
+        this.const.push(i / this.options.constDivider);
     }
     for (i = 0; i < this.options.numCalculationRegisters; i++) {
-        this.calculationRegisters.push(this.options.defaultCalculationValue);
+        this.calc.push(this.options.defaultCalculationValue);
     }
     for (i = 0; i < this.options.numOutputs; i++) {
-        this.outputRegisters.push(this.options.defaultOutputValue);
+        this.out.push(this.options.defaultOutputValue);
     }
 };
 
@@ -32,7 +32,7 @@ RegisterSet.prototype.setInputs = function (inputs) {
         throw "length of inputs does not equal expected length";
     }
     this.reset();
-    this.inputRegisters = inputs;
+    this.input = inputs;
 };
 
 RegisterSet.prototype.validate = function () {
@@ -80,18 +80,18 @@ RegisterSet.prototype.setDefaultOptionsIfNotProvided = function () {
 };
 
 RegisterSet.prototype.getOutputNodes = function () {
-    return clone(this.outputRegisters);
+    return clone(this.out);
 };
 
 RegisterSet.prototype.getTotalRegisters = function () {
-    return this.inputRegisters.length +
-        this.constantRegisters.length +
-        this.calculationRegisters.length +
-        this.outputRegisters.length;
+    return this.input.length +
+        this.const.length +
+        this.calc.length +
+        this.out.length;
 };
 
 RegisterSet.prototype.getTotalWritableRegisters = function () {
-    return this.calculationRegisters.length + this.outputRegisters.length;
+    return this.calc.length + this.out.length;
 };
 
 exports.RegisterSet = RegisterSet;

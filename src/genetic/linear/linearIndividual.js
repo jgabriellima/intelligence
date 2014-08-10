@@ -12,7 +12,7 @@ var LinearIndividual = function (options) {
     Individual.call(this, options);
 };
 
-LinearIndividual.prototype = Object.create(Individual.prototype);
+utils.inherits(LinearIndividual, Individual);
 
 LinearIndividual.prototype.validateRequiredOptions = function () {
     Individual.prototype.validateRequiredOptions.call(this);
@@ -60,9 +60,14 @@ LinearIndividual.prototype.toString = function () {
     var numIndents = 0;
     for (var i = 0; i < this.body.length; i++) {
         var node = this.body[i];
-        toReturn += node.toString() + "\n";
         for (var j = 0; j < numIndents; j++) {
-            toReturn += "  ";
+            toReturn += "\t";
+        }
+        toReturn += node.toString() + "\n";
+        if (node instanceof LinearFunctionNode) {
+            numIndents = 0;
+        } else {
+            numIndents += 1;
         }
     }
     return toReturn;

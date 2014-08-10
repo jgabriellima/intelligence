@@ -39,7 +39,7 @@ module.exports = {
         var individual = new intelligence.LinearIndividual(this.individualOptions);
         var inputs = [1, 2, 3, 4, 5];
         var returnValue = individual.execute(inputs);
-        test.ok(intelligence.utils.arrayEqual(individual.options.registerSet.outputRegisters, returnValue));
+        test.ok(intelligence.utils.arrayEqual(individual.options.registerSet.out, returnValue));
         test.done();
     },
     execute_whenCalledTwice_sameValueIsReturned: function (test) {

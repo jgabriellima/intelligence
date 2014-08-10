@@ -60,7 +60,7 @@ module.exports = {
         var inputs = [1, 2, 3, 4, 5];
         var x = new intelligence.RegisterSet(this.registerSetOptions);
         x.setInputs(inputs);
-        test.equal(x.inputRegisters, inputs);
+        test.equal(x.input, inputs);
         test.done();
     }
 };
