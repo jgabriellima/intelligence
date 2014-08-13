@@ -59,7 +59,7 @@ var population = new intelligence.Population({
     crossoverStrategy: intelligence.crossoverStrategies.twoPointVariable,
     fitnessFunction: fitnessFunction,
     elitism: 2,
-    populationSize: 75,
+    populationSize: 300,
     tournamentSize: 2,
     isMinimise: true
 });

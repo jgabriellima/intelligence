@@ -37,7 +37,8 @@ module.exports = {
         var inputA = linearGPNode.inputRegisters[0];
         var inputB = linearGPNode.inputRegisters[1];
         var expectedValue = inputA.getValue(this.registerSet) + inputB.getValue(this.registerSet);
-        test.equal(linearGPNode.getFuncReturnValue(this.registerSet), expectedValue);
+        var returnValue = linearGPNode.getFuncReturnValue(this.registerSet);
+        test.ok(returnValue === expectedValue || (isNaN(returnValue) && isNaN(expectedValue)));
         test.done();
     }
 };

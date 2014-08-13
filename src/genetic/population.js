@@ -59,7 +59,7 @@ Population.prototype.evaluateFitness = function () {
             individual.fitness = this.options.fitnessFunction(individual);
         }
     }
-    return this;
+    return this.filterNanFitness();
 };
 
 Population.prototype.crossover = function () {
@@ -85,7 +85,7 @@ Population.prototype.crossover = function () {
 
 Population.prototype.mutate = function () {
     this.evaluateFitness();
-    var elite = this.options.elite ? this.getFittestIndividuals[this.options.elite] : null;
+    var elite = this.options.elitism ? this.getFittestIndividuals(this.options.elitism) : null;
     for (var i = 0; i < this.individuals.length; i++) {
         if (!elite || elite.indexOf(this.individuals[i]) > -1) {
             if (utils.random() < this.options.mutationRate) {
@@ -118,9 +118,10 @@ Population.prototype.getAverageFitness = function () {
     this.evaluateFitness();
     var sum = 0;
     for (var i = 0; i < this.individuals.length; i++) {
-        sum += this.individuals[i].fitness;
+        if (isFinite(this.individuals[i].fitness)) {
+            sum += this.individuals[i].fitness;
+        }
     };
-    console.log(sum, this.individuals.length);
     return sum / this.individuals.length;
 };
 
@@ -138,6 +139,17 @@ Population.prototype.train = function (numGenerations, generationCb, completedCb
         }
     }
     this.emit('trainingCompleted', this);
+};
+
+Population.prototype.filterNanFitness = function () {
+    var value = this.options.isMinimise ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
+    for (var i = 0; i < this.individuals.length; i++) {
+        var individual = this.individuals[i];
+        if (isNaN(individual.fitness)) {
+            individual.fitness = value
+        }
+    }
+    return this;
 };
 
 exports.Population = Population;

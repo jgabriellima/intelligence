@@ -14,7 +14,7 @@ module.exports = {
     },
     registerReference_propertyDoesNotExist_throws: function (test) {
         test.throws(function () {
-            var r = new registerReference.RegisterReference('doesnotexist', this.registerSet);
+            var r = new registerReference.RegisterReference(this.registerSet, 'doesnotexist');
         });
         test.done();
     },
@@ -67,9 +67,29 @@ module.exports = {
     },
     setValue_whenIsOutput_setsOutputValue: function (test) {
         var newValue = 12345;
-        var r = new registerReference.RegisterReference(registerReference.OUTPUT, this.registerSet);
+        var r = new registerReference.RegisterReference(registerReference.CALCULATION, this.registerSet);
         r.setValue(this.registerSet, newValue);
         test.equal(r.getValue(this.registerSet), newValue);
+        test.done();
+    },
+    createInput_whenCalled_returnsInputRegisterReference: function (test) {
+        var r = registerReference.createInput(this.registerSet);
+        test.equal(r.flag, registerReference.INPUT);
+        test.done();
+    },
+    createConstant_whenCalled_returnsConstantRegisterReference: function (test) {
+        var r = registerReference.createConstant(this.registerSet);
+        test.equal(r.flag, registerReference.CONSTANT);
+        test.done();
+    },
+    createCalculation_whenCalled_returnsCalculationRegisterReference: function (test) {
+        var r = registerReference.createCalculation(this.registerSet);
+        test.equal(r.flag, registerReference.CALCULATION);
+        test.done();
+    },
+    createOutput_whenCalled_returnsOutputRegisterReference: function (test) {
+        var r = registerReference.createOutput(this.registerSet);
+        test.equal(r.flag, registerReference.OUTPUT);
         test.done();
     }
 };

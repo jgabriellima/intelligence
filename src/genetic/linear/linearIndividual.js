@@ -55,6 +55,10 @@ LinearIndividual.prototype.execute = function (inputs) {
     return this.options.registerSet.getOutputNodes();
 };
 
+LinearIndividual.prototype.removeIntrons = function () {
+
+};
+
 LinearIndividual.prototype.toString = function () {
     var toReturn = "";
     var numIndents = 0;

@@ -83,13 +83,6 @@ RegisterSet.prototype.getOutputNodes = function () {
     return clone(this.out);
 };
 
-RegisterSet.prototype.getTotalRegisters = function () {
-    return this.input.length +
-        this.const.length +
-        this.calc.length +
-        this.out.length;
-};
-
 RegisterSet.prototype.getTotalWritableRegisters = function () {
     return this.calc.length + this.out.length;
 };

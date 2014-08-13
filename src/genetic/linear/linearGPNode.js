@@ -9,20 +9,17 @@ var LinearGPNode = function (func, registerSet) {
 
 LinearGPNode.prototype.setInputRegisters = function (registerSet) {
     var random = utils.random();
-    var totalRegisters = registerSet.getTotalRegisters();
     this.inputRegisters = [];
     for (var i = 0; i < this.func.length; i++) {
-        var flag;
-        if (random < registerSet.input.length / totalRegisters) {
-            flag = registerReference.INPUT;
-        } else if (random < registerSet.const.length / totalRegisters) {
-            flag = registerReference.CONSTANT;
-        } else if (random < registerSet.calc.length / totalRegisters) {
-            flag = registerReference.CALCULATION;
+        if (random < 0.25) {
+            this.inputRegisters.push(registerReference.createInput(registerSet));
+        } else if (random < 0.5) {
+            this.inputRegisters.push(registerReference.createConstant(registerSet));
+        } else if (random < 0.75) {
+            this.inputRegisters.push(registerReference.createCalculation(registerSet));
         } else {
-            flag = registerReference.OUTPUT;
+            this.inputRegisters.push(registerReference.createOutput(registerSet));
         }
-        this.inputRegisters.push(new registerReference.RegisterReference(flag, registerSet));
     }
 };
 

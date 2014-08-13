@@ -1,6 +1,5 @@
 var utils = require('./../infrastructure/utils');
 var clone = require('clone');
-var events = require('events');
 
 var Individual = function (options) {
     this.body = null;

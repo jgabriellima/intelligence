@@ -64,5 +64,14 @@ module.exports = {
         }
         test.ok(success);
         test.done();
+    },
+    filterNanFitness_whenCalled_convertsNanFitnessToZero: function (test) {
+        var population = new intelligence.Population(this.populationOptions);
+        population.individuals[0].fitness = Number.NaN;
+        population.individuals[1].fitness = Number.NaN;
+        population.filterNanFitness();
+        test.ok(!isNaN(population.individuals[0].fitness));
+        test.ok(!isNaN(population.individuals[1].fitness));
+        test.done();
     }
 };

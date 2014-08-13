@@ -1,36 +1,29 @@
 var utils = require('./../infrastructure/utils');
 
-exports.random = function (chromosomes, options) {
-    var selections = [chromosomes[utils.randBetween(0, chromosomes.length)]];
+exports.random = function (individuals, options) {
+    var selections = [individuals[utils.randBetween(0, individuals.length)]];
     while (true) {
-        var spouse = chromosomes[utils.randBetween(0, chromosomes.length)];
+        var spouse = individuals[utils.randBetween(0, individuals.length)];
         if (spouse !== selections[0]) {
             selections.push(spouse);
             break;
         }
     }
     return selections;
-}
+};
 
-exports.rank = function (chromosomes, options) {
+exports.rank = function (individuals, options) {
     throw "not implemented";
-}
+};
 
-exports.tournament = function (chromosomes, options) {
+exports.tournament = function (individuals, options) {
     var selections = [];
     for (var i = 0; i < 2; i++) {
         var tournament = [];
         for (var j = 0; j < options.tournamentSize; j++) {
-            while (true) {
-                var selection = chromosomes[utils.randBetween(0, chromosomes.length)];
-                for (var k = 0; k < tournament.length; k++) {
-                    if (selection === tournament[k]) {
-                        continue;
-                    }
-                }
-                tournament.push(selection);
-                break;
-            }
+            var selection = individuals[utils.randBetween(0, individuals.length)];
+            tournament.push(selection);
+            break;
         }
         var winner = tournament[0];
         if (options.minimise) {
@@ -45,8 +38,8 @@ exports.tournament = function (chromosomes, options) {
         selections.push(winner);
     }
     return selections;
-}
+};
 
-exports.rouletteWheel = function (chromosomes, options) {
+exports.rouletteWheel = function (individuals, options) {
     throw "not implemented";
-}
+};

@@ -23,10 +23,10 @@ module.exports = {
         var node = new intelligence.LinearFunctionNode(this.testFunction, this.registerSet);
         var inputA = node.inputRegisters[0];
         var inputB = node.inputRegisters[1];
-        console.log(JSON.stringify(inputA), JSON.stringify(inputB));
         var expectedValue = inputA.getValue(this.registerSet) + inputB.getValue(this.registerSet);
         node.execute(this.registerSet);
-        test.equal(node.targetRegister.getValue(this.registerSet), expectedValue);
+        var returnValue = node.targetRegister.getValue(this.registerSet)
+        test.ok(returnValue === expectedValue || (isNaN(returnValue) && isNaN(expectedValue)));
         test.done();
     }
 };

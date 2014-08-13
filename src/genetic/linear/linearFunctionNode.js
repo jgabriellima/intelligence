@@ -13,9 +13,9 @@ utils.inherits(LinearFunctionNode, LinearGPNode);
 LinearFunctionNode.prototype.setTargetRegister = function (registerSet) {
     var pCalulcation = registerSet.calc.length / registerSet.getTotalWritableRegisters();
     if (utils.random() < pCalulcation) {
-        this.targetRegister = new registerReference.RegisterReference(registerReference.CALCULATION, registerSet);
+        this.targetRegister = new registerReference.createCalculation(registerSet);
     } else {
-        this.targetRegister = new registerReference.RegisterReference(registerReference.OUTPUT, registerSet);
+        this.targetRegister = new registerReference.createOutput(registerSet);
     }
 };
 
