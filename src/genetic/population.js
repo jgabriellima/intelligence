@@ -34,7 +34,7 @@ Population.prototype.setDefaultOptionsIfNotProvided = function () {
         this.options.crossoverRate = 0.75;
     }
     if (!this.options.mutationRate) {
-        this.options.mutationRate = 0.5;
+        this.options.mutationRate = 0.2;
     }
     if (!this.options.tournamentSize) {
         this.options.tournamentSize = Math.ceil(this.options.populationSize * 0.05);
@@ -74,7 +74,8 @@ Population.prototype.crossover = function () {
     while (limbo.length < this.individuals.length) {
         var selections = this.options.selectionStrategy(this.individuals, this.options);
         if (utils.random() < this.options.crossoverRate) {
-            selections = this.options.crossoverStrategy(selections, this.options);
+            var elections = this.options.crossoverStrategy(selections, this.options);
+            selections = elections;
             for (var i = 0; i < selections.length; i++) selections[i].fitness = null;
         }
         limbo = limbo.concat(selections);
@@ -87,7 +88,7 @@ Population.prototype.mutate = function () {
     this.evaluateFitness();
     var elite = this.options.elitism ? this.getFittestIndividuals(this.options.elitism) : null;
     for (var i = 0; i < this.individuals.length; i++) {
-        if (!elite || elite.indexOf(this.individuals[i]) > -1) {
+        if (!elite || elite.indexOf(this.individuals[i]) === -1) {
             if (utils.random() < this.options.mutationRate) {
                 this.individuals[i].mutate();
             }

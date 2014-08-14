@@ -25,34 +25,31 @@ var fitnessFunction = function (individual) {
     return fitness;
 };
 
-// create a population using the individual created above as the baseIndividual.
+// Create a population using the individual created above as the baseIndividual.
 // crossoverStrategies.twoPointFixed performs two point crossover on 
 // individuals whos length is fixed.
 var population = new intelligence.Population({
     baseIndividual: individual,
-    crossoverStrategy: intelligence.crossoverStrategies.twoPointFixed,
+    crossoverStrategy: intelligence.crossoverStrategies.onePointFixed,
     fitnessFunction: fitnessFunction,
     elitism: 2,
-    populationSize: 500,
+    populationSize: 75,
     tournamentSize: 2,
 });
 
 // this function is called each time a single generation has completed
-var generationCompleted = function (population, generationNumber) {
+population.on('generationCompleted', function (population, generationNumber) {
     if (generationNumber % 10 === 0) {
         var best = population.getFittestIndividuals(1)[0].body;
         console.log("Gen: " + generationNumber + ", best: " + best.join(''));
     }
-};
+});
 
 // this function is called when training completes
-var trainingCompleted = function (population) {
+population.on('trainingCompleted', function (population) {
     var best = population.getFittestIndividuals(1)[0].body;
     console.log("Training completed, best: " + best.join(''));
-};
-
-population.on('generationCompleted', generationCompleted);
-population.on('trainingCompleted', trainingCompleted);
+});
 
 // train the population over 100 generations
 population.train(100);

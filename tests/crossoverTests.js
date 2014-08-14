@@ -265,7 +265,6 @@ module.exports = {
         for (i = 4; i < offspring[0].body.length; i++) {
             test.equal(offspring[0].body[i], this.variableA.body[i]);
         }
-
         for (i = 0; i < 6; i++) {
             test.equal(offspring[1].body[i], this.variableB.body[i]);
         }

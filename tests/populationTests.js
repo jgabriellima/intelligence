@@ -73,5 +73,30 @@ module.exports = {
         test.ok(!isNaN(population.individuals[0].fitness));
         test.ok(!isNaN(population.individuals[1].fitness));
         test.done();
+    },
+    getFittestIndividuals_whenOneIndividualIsRequested_returnsFittestIndividual: function (test) {
+        var population = new intelligence.Population(this.populationOptions);
+        var returnedIndividual = population.getFittestIndividuals(1)[0];
+        var fittest = population.individuals[0];
+        for (var i = 1; i < population.individuals.length; i++) {
+            if (population.individuals[i].fitness > fittest.fitness) {
+                fittest = population.individuals[i];
+            }
+        }
+        test.equal(fittest.fitness, returnedIndividual.fitness);
+        test.done();
+    },
+    getFittestIndividuals_whenOneIndividualIsRequestedMinimise_returnsFittestIndividual: function (test) {
+        this.populationOptions.isMinimise = true;
+        var population = new intelligence.Population(this.populationOptions);
+        var returnedIndividual = population.getFittestIndividuals(1)[0];
+        var fittest = population.individuals[0];
+        for (var i = 1; i < population.individuals.length; i++) {
+            if (population.individuals[i].fitness < fittest.fitness) {
+                fittest = population.individuals[i];
+            }
+        }
+        test.equal(fittest.fitness, returnedIndividual.fitness);
+        test.done();
     }
 };

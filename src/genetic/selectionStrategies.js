@@ -23,7 +23,6 @@ exports.tournament = function (individuals, options) {
         for (var j = 0; j < options.tournamentSize; j++) {
             var selection = individuals[utils.randBetween(0, individuals.length)];
             tournament.push(selection);
-            break;
         }
         var winner = tournament[0];
         if (options.minimise) {
