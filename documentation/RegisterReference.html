@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: RegisterReference</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: RegisterReference</h1>
+
+    
+
+
+
+<section>
+
+<header>
+    <h2>
+    RegisterReference
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <h4 class="name" id="RegisterReference"><span class="type-signature"></span>new RegisterReference<span class="signature">(flag, registerSet, index)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Linear genetic programming register reference</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>flag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The register set property name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>registerSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RegisterSet.html">RegisterSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The register set to randomly select an index from</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Optional user specified index</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+        <h5 class="subsection-title">Properties:</h5>
+
+        <dl>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>flag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The register set property name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The register set array index</p></td>
+        </tr>
+
+    
+    </tbody>
+</table></dl>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registerReference.js.html">genetic/linear/registerReference.js</a>, <a href="registerReference.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="getValue"><span class="type-signature"></span>getValue<span class="signature">(registerSet)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Gets the value that this register reference represents in the given register set</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>registerSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RegisterSet.html">RegisterSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A register set instance</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registerReference.js.html">genetic/linear/registerReference.js</a>, <a href="registerReference.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>Value from the register set</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setRandomIndex"><span class="type-signature"></span>setRandomIndex<span class="signature">(registerSet)</span><span class="type-signature"> &rarr; {<a href="RegisterReference.html">RegisterReference</a>}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sets the index property to a random value based on the provided register set</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>registerSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RegisterSet.html">RegisterSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A register set instance</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registerReference.js.html">genetic/linear/registerReference.js</a>, <a href="registerReference.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>Reference to current object for chaining</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="RegisterReference.html">RegisterReference</a></span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setValue"><span class="type-signature"></span>setValue<span class="signature">(registerSet, value)</span><span class="type-signature"> &rarr; {<a href="RegisterReference.html">RegisterReference</a>}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sets the value that this register reference represents in the given register set</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>registerSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RegisterSet.html">RegisterSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A register set instance</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A value to set</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registerReference.js.html">genetic/linear/registerReference.js</a>, <a href="registerReference.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>Reference to current object for chaining</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="RegisterReference.html">RegisterReference</a></span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">(registerSet)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a string representation of register reference</p>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>registerSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RegisterSet.html">RegisterSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A register set instance</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="registerReference.js.html">genetic/linear/registerReference.js</a>, <a href="registerReference.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A string representation of the register reference</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Individual.html">Individual</a></li><li><a href="LinearConditionalNode.html">LinearConditionalNode</a></li><li><a href="LinearFunctionNode.html">LinearFunctionNode</a></li><li><a href="LinearGPNode.html">LinearGPNode</a></li><li><a href="LinearIndividual.html">LinearIndividual</a></li><li><a href="Population.html">Population</a></li><li><a href="RegisterReference.html">RegisterReference</a></li><li><a href="RegisterSet.html">RegisterSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphabet">alphabet</a></li><li><a href="global.html#arrayEqual">arrayEqual</a></li><li><a href="global.html#binaryNumber">binaryNumber</a></li><li><a href="global.html#binaryString">binaryString</a></li><li><a href="global.html#createCalculation">createCalculation</a></li><li><a href="global.html#createConstant">createConstant</a></li><li><a href="global.html#createInput">createInput</a></li><li><a href="global.html#createOutput">createOutput</a></li><li><a href="global.html#formatString">formatString</a></li><li><a href="global.html#fpEqual">fpEqual</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#linearNode">linearNode</a></li><li><a href="global.html#onePointFixed">onePointFixed</a></li><li><a href="global.html#onePointVariable">onePointVariable</a></li><li><a href="global.html#randBetween">randBetween</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomNumber">randomNumber</a></li><li><a href="global.html#rank">rank</a></li><li><a href="global.html#rouletteWheel">rouletteWheel</a></li><li><a href="global.html#selectRandom">selectRandom</a></li><li><a href="global.html#swapGenes">swapGenes</a></li><li><a href="global.html#tournament">tournament</a></li><li><a href="global.html#twoPointFixed">twoPointFixed</a></li><li><a href="global.html#twoPointVariable">twoPointVariable</a></li><li><a href="global.html#uniform">uniform</a></li><li><a href="global.html#validateFixedLength">validateFixedLength</a></li><li><a href="global.html#validateMinimumLength">validateMinimumLength</a></li><li><a href="global.html#validateVariableLength">validateVariableLength</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Sat Aug 16 2014 23:01:51 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

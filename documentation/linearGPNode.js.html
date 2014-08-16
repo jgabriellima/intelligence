@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: genetic/linear/linearGPNode.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: genetic/linear/linearGPNode.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var registerReference = require('./registerReference');
+var utils = require('./../../infrastructure/utils');
+
+/**
+ * Linear genetic programming node
+ * @constructor
+ * @param {function} func - A function that this node will represent
+ * @param {RegisterSet} registerSet - A register set instance
+ * @property {function} func - Linear indivdual options
+ * @property {RegisterReference[]} inputRegisters - An array of register references
+ */
+var LinearGPNode = function (func, registerSet) {
+    this.func = func;
+    this.inputRegisters = null;
+    this.setInputRegisters(registerSet);
+};
+
+/**
+ * Randomly sets two input registers based on the provided register set
+ * @param {RegisterSet} registerSet - A register set instance
+ * @returns {LinearGPNode} Reference to current object for chaining
+ */
+LinearGPNode.prototype.setInputRegisters = function (registerSet) {
+    var random = utils.random();
+    this.inputRegisters = [];
+    for (var i = 0; i &lt; this.func.length; i++) {
+        if (random &lt; 0.25) {
+            this.inputRegisters.push(registerReference.createInput(registerSet));
+        } else if (random &lt; 0.5) {
+            this.inputRegisters.push(registerReference.createConstant(registerSet));
+        } else if (random &lt; 0.75) {
+            this.inputRegisters.push(registerReference.createCalculation(registerSet));
+        } else {
+            this.inputRegisters.push(registerReference.createOutput(registerSet));
+        }
+    }
+};
+
+/**
+ * Returns the value returned by the nodes function based on the input values from a given register set
+ * @param {RegisterSet} registerSet - A register set instance
+ * @returns {*} Functon return value
+ */
+LinearGPNode.prototype.getFuncReturnValue = function (registerSet) {
+    var arguments = [];
+    for (var i = 0; i &lt; this.inputRegisters.length; i++) {
+        arguments.push(this.inputRegisters[i].getValue(registerSet));
+    }
+    return this.func.apply(this, arguments);
+};
+
+/**
+ * Returns a comma seperated string of input registers
+ * @returns {string} A comma seperated string of input registers
+ */
+LinearGPNode.prototype.getArgumentsString = function () {
+    var arguments = "";
+    for (var i = 0; i &lt; this.inputRegisters.length; i++) {
+        arguments += this.inputRegisters[i].toString();
+        if (i !== this.inputRegisters.length - 1) {
+            arguments += ", ";
+        }
+    }
+    return arguments;
+};
+
+exports.LinearGPNode = LinearGPNode;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Individual.html">Individual</a></li><li><a href="LinearConditionalNode.html">LinearConditionalNode</a></li><li><a href="LinearFunctionNode.html">LinearFunctionNode</a></li><li><a href="LinearGPNode.html">LinearGPNode</a></li><li><a href="LinearIndividual.html">LinearIndividual</a></li><li><a href="Population.html">Population</a></li><li><a href="RegisterReference.html">RegisterReference</a></li><li><a href="RegisterSet.html">RegisterSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphabet">alphabet</a></li><li><a href="global.html#arrayEqual">arrayEqual</a></li><li><a href="global.html#binaryNumber">binaryNumber</a></li><li><a href="global.html#binaryString">binaryString</a></li><li><a href="global.html#createCalculation">createCalculation</a></li><li><a href="global.html#createConstant">createConstant</a></li><li><a href="global.html#createInput">createInput</a></li><li><a href="global.html#createOutput">createOutput</a></li><li><a href="global.html#formatString">formatString</a></li><li><a href="global.html#fpEqual">fpEqual</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#linearNode">linearNode</a></li><li><a href="global.html#onePointFixed">onePointFixed</a></li><li><a href="global.html#onePointVariable">onePointVariable</a></li><li><a href="global.html#randBetween">randBetween</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomNumber">randomNumber</a></li><li><a href="global.html#rank">rank</a></li><li><a href="global.html#rouletteWheel">rouletteWheel</a></li><li><a href="global.html#selectRandom">selectRandom</a></li><li><a href="global.html#swapGenes">swapGenes</a></li><li><a href="global.html#tournament">tournament</a></li><li><a href="global.html#twoPointFixed">twoPointFixed</a></li><li><a href="global.html#twoPointVariable">twoPointVariable</a></li><li><a href="global.html#uniform">uniform</a></li><li><a href="global.html#validateFixedLength">validateFixedLength</a></li><li><a href="global.html#validateMinimumLength">validateMinimumLength</a></li><li><a href="global.html#validateVariableLength">validateVariableLength</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Sat Aug 16 2014 23:01:50 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

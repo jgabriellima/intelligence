@@ -2,7 +2,15 @@ var events = require('events');
 var utils = require('./../infrastructure/utils');
 var selectionStrategies = require('./selectionStrategies');
 
+/**
+ * Genetic algorithm population
+ * @constructor
+ * @param {object} options - Population options
+ * @param {Individual} options.baseIndividual -
+ * @property {object} options - Population options
+ */
 var Population = function (options) {
+
     this.options = options;
     this.individuals = null;
     this.validateRequiredOptions();
@@ -14,6 +22,11 @@ var Population = function (options) {
 
 utils.inherits(Population, events.EventEmitter);
 
+/**
+ * Throws an exception if a required option is missing
+ * @throws An exception is thrown if a required option is missing
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.validateRequiredOptions = function () {
     if (!this.options) {
         throw "options are required";
@@ -23,17 +36,22 @@ Population.prototype.validateRequiredOptions = function () {
         throw "option 'crossoverStrategy' is required";
     } else if (!this.options.fitnessFunction) {
         throw "options 'fitnessFunction' is required";
-    };
+    }
+    return this;
 };
 
+/**
+ * Sets default values for options that have not been defined
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.setDefaultOptionsIfNotProvided = function () {
     if (!this.options.populationSize) {
         this.options.populationSize = 100;
     }
-    if (!this.options.crossoverRate) {
+    if (this.options.crossoverRate === undefined) {
         this.options.crossoverRate = 0.75;
     }
-    if (!this.options.mutationRate) {
+    if (this.options.mutationRate === undefined) {
         this.options.mutationRate = 0.2;
     }
     if (!this.options.tournamentSize) {
@@ -42,8 +60,13 @@ Population.prototype.setDefaultOptionsIfNotProvided = function () {
     if (!this.options.selectionStrategy) {
         this.options.selectionStrategy = selectionStrategies.tournament;
     }
+    return this;
 };
 
+/**
+ * Creates a randomly generated population of individuals
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.initialise = function () {
     this.individuals = [];
     for (var i = 0; i < this.options.populationSize; i++) {
@@ -52,6 +75,10 @@ Population.prototype.initialise = function () {
     return this;
 };
 
+/**
+ * Calculates the fitness of each individual where the fitness value is null
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.evaluateFitness = function () {
     for (var i = 0; i < this.individuals.length; i++) {
         var individual = this.individuals[i];
@@ -62,6 +89,10 @@ Population.prototype.evaluateFitness = function () {
     return this.filterNanFitness();
 };
 
+/**
+ * Performs crossover using the crossoverStrategy function defined in the population options
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.crossover = function () {
     this.evaluateFitness();
     var limbo = [];
@@ -84,6 +115,10 @@ Population.prototype.crossover = function () {
     return this;
 };
 
+/**
+ * Mutates the population based on the mutationRate property in each individuals options
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.mutate = function () {
     this.evaluateFitness();
     var elite = this.options.elitism ? this.getFittestIndividuals(this.options.elitism) : null;
@@ -97,6 +132,11 @@ Population.prototype.mutate = function () {
     return this;
 };
 
+/**
+ * Returns a specified number of individuals with the best fitness rating in the population
+ * @param {number} [numIndividuals=1] - The number of individuals to return
+ * @returns {Individual[]} An array of the fittest individuals in the population
+ */
 Population.prototype.getFittestIndividuals = function (numIndividuals) {
     this.evaluateFitness();
     var self = this;
@@ -115,6 +155,10 @@ Population.prototype.getFittestIndividuals = function (numIndividuals) {
     }).slice(0, numIndividuals);
 };
 
+/**
+ * Calculate the average fitness of all individuals in the population (exluding infinite values)
+ * @returns {number} Average fitness of the population
+ */
 Population.prototype.getAverageFitness = function () {
     this.evaluateFitness();
     var sum = 0;
@@ -126,11 +170,20 @@ Population.prototype.getAverageFitness = function () {
     return sum / this.individuals.length;
 };
 
+/**
+ * Applies a single iteration of crossover and mutation to the population
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.step = function () {
     return this.evaluateFitness().crossover().mutate().evaluateFitness();
 };
 
-Population.prototype.train = function (numGenerations, generationCb, completedCb) {
+/**
+ * Trains the population over a specified number of generations
+ * @param {number} numGenerations - The number of generations to train the population over
+ * @returns {Population} Reference to current object for chaining
+ */
+Population.prototype.train = function (numGenerations) {
     if (numGenerations <= 0) {
         throw "'numGenerations' must greater than 0";
     } else {
@@ -140,8 +193,13 @@ Population.prototype.train = function (numGenerations, generationCb, completedCb
         }
     }
     this.emit('trainingCompleted', this);
+    return this;
 };
 
+/**
+ * Subsitutes an individuals fitness to positive or negative infinity if it isNaN
+ * @returns {Population} Reference to current object for chaining
+ */
 Population.prototype.filterNanFitness = function () {
     var value = this.options.isMinimise ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
     for (var i = 0; i < this.individuals.length; i++) {

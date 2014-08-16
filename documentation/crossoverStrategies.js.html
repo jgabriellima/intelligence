@@ -1,4 +1,31 @@
-var utils = require('./../infrastructure/utils');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: genetic/crossoverStrategies.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: genetic/crossoverStrategies.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var utils = require('./../infrastructure/utils');
 
 /**
  * Throws an exception if any individuals have less than two genes
@@ -6,7 +33,7 @@ var utils = require('./../infrastructure/utils');
  * @throws An exception is thrown if any individuals have less than two genes
  */
 var validateMinimumLength = function (individuals) {
-    if (individuals[0].body.length < 2 || individuals[0].body.length < 2) {
+    if (individuals[0].body.length &lt; 2 || individuals[0].body.length &lt; 2) {
         throw "individuals must have at least two genes for crossover";
     }
 };
@@ -17,7 +44,7 @@ var validateMinimumLength = function (individuals) {
  * @throws An exception is thrown if any individuals are not fixed length
  */
 var validateFixedLength = function (individuals) {
-    if (!(individuals[0].isFixedLength() && individuals[1].isFixedLength())) {
+    if (!(individuals[0].isFixedLength() &amp;&amp; individuals[1].isFixedLength())) {
         throw "individuals must be of a fixed length for crossover";
     }
 };
@@ -56,7 +83,7 @@ exports.onePointFixed = function (individuals) {
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
     var cut = utils.randBetween(0, offspringA.body.length - 1);
-    for (var i = cut; i < offspringA.body.length; i++) {
+    for (var i = cut; i &lt; offspringA.body.length; i++) {
         swapGenes(offspringA, offspringB, i);
     }
     return [offspringA, offspringB];
@@ -74,7 +101,7 @@ exports.twoPointFixed = function (individuals) {
     var offspringB = individuals[1].copy();
     var cutA = utils.randBetween(0, offspringA.body.length - 2);
     var cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
-    for (var i = cutA; i < cutB; i++) {
+    for (var i = cutA; i &lt; cutB; i++) {
         swapGenes(offspringA, offspringB, i);
     }
     return [offspringA, offspringB];
@@ -90,8 +117,8 @@ exports.uniform = function (individuals) {
     validateFixedLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
-    for (var i = 0; i < offspringA.body.length; i++) {
-        if (utils.random() < 0.5) {
+    for (var i = 0; i &lt; offspringA.body.length; i++) {
+        if (utils.random() &lt; 0.5) {
             swapGenes(offspringA, offspringB, i);
         }
     }
@@ -133,9 +160,9 @@ exports.twoPointVariable = function (individuals) {
         cutD = utils.randBetween(cutC + 1, offspringB.body.length - 1);
         var newSizeA = offspringA.body.length - (cutB - cutA) + (cutD - cutC);
         var newSizeB = offspringB.body.length - (cutD - cutC) + (cutB - cutA);
-        if (newSizeA <= offspringA.options.maxLength &&
-            newSizeA >= offspringA.options.minLength &&
-            newSizeB <= offspringB.options.maxLength &&
+        if (newSizeA &lt;= offspringA.options.maxLength &amp;&amp;
+            newSizeA >= offspringA.options.minLength &amp;&amp;
+            newSizeB &lt;= offspringB.options.maxLength &amp;&amp;
             newSizeB >= offspringB.options.minLength) {
             break;
         }
@@ -147,4 +174,26 @@ exports.twoPointVariable = function (individuals) {
     offspringA.body = offspringA.body.concat(individuals[0].body.slice(cutB, individuals[0].body.length));
     offspringB.body = offspringB.body.concat(individuals[1].body.slice(cutD, individuals[1].body.length));
     return [offspringA, offspringB];
-};
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Individual.html">Individual</a></li><li><a href="LinearConditionalNode.html">LinearConditionalNode</a></li><li><a href="LinearFunctionNode.html">LinearFunctionNode</a></li><li><a href="LinearGPNode.html">LinearGPNode</a></li><li><a href="LinearIndividual.html">LinearIndividual</a></li><li><a href="Population.html">Population</a></li><li><a href="RegisterReference.html">RegisterReference</a></li><li><a href="RegisterSet.html">RegisterSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphabet">alphabet</a></li><li><a href="global.html#arrayEqual">arrayEqual</a></li><li><a href="global.html#binaryNumber">binaryNumber</a></li><li><a href="global.html#binaryString">binaryString</a></li><li><a href="global.html#createCalculation">createCalculation</a></li><li><a href="global.html#createConstant">createConstant</a></li><li><a href="global.html#createInput">createInput</a></li><li><a href="global.html#createOutput">createOutput</a></li><li><a href="global.html#formatString">formatString</a></li><li><a href="global.html#fpEqual">fpEqual</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#linearNode">linearNode</a></li><li><a href="global.html#onePointFixed">onePointFixed</a></li><li><a href="global.html#onePointVariable">onePointVariable</a></li><li><a href="global.html#randBetween">randBetween</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomNumber">randomNumber</a></li><li><a href="global.html#rank">rank</a></li><li><a href="global.html#rouletteWheel">rouletteWheel</a></li><li><a href="global.html#selectRandom">selectRandom</a></li><li><a href="global.html#swapGenes">swapGenes</a></li><li><a href="global.html#tournament">tournament</a></li><li><a href="global.html#twoPointFixed">twoPointFixed</a></li><li><a href="global.html#twoPointVariable">twoPointVariable</a></li><li><a href="global.html#uniform">uniform</a></li><li><a href="global.html#validateFixedLength">validateFixedLength</a></li><li><a href="global.html#validateMinimumLength">validateMinimumLength</a></li><li><a href="global.html#validateVariableLength">validateVariableLength</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Sat Aug 16 2014 23:01:50 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
