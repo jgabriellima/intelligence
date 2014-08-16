@@ -15,20 +15,21 @@
     },
     "devDependencies": {},
     "scripts": {
-        "test": "nodeunit tests"
+        "test": "nodeunit tests",
+        "documentation": "jsdoc -r -c ./conf.json -d ./documentation src"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/Sherlock92/intelligencejs.git"
     },
     "keywords": [
-    "machine-learning",
-    "ai",
-    "genetic-algorithm",
-    "genetic-programming",
-    "neural-network",
-    "artificial-intelligence"
-  ],
+        "machine-learning",
+        "ai",
+        "genetic-algorithm",
+        "genetic-programming",
+        "neural-network",
+        "artificial-intelligence"
+    ],
     "author": "Daniel Holmes",
     "license": "ISC",
     "bugs": {
