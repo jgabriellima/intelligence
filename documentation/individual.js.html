@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: genetic/individual.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: genetic/individual.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var utils = require('./../infrastructure/utils');
+var clone = require('clone');
+
+/**
+ * Genetic algorithm individual
+ * @constructor
+ * @param {object} options - Individual options
+ * @param {number} options.minLength - The minimum number of genes
+ * @param {number} options.maxLength - The maximum number of genes
+ * @param {function} options.geneFactory - A function that returns a random gene
+ * @property {object[]} body - An array of genes that represent a single chromosome
+ * @property {number} fitness - The individuals fitness rating
+ * @property {object} options - Individual options
+ */
+var Individual = function (options) {
+    this.body = null;
+    this.fitness = null;
+    this.options = options;
+    this.validateRequiredOptions();
+    this.initialise();
+    return this;
+};
+
+/**
+ * Validates the individuals current options
+ * @throws An exception will occur if a required option is missing
+ * @returns {Individual} Reference to current object for chaining
+ */
+Individual.prototype.validateRequiredOptions = function () {
+    if (!this.options) {
+        throw "options are required";
+    } else if (this.options.minLength === undefined) {
+        throw "option 'minLength' is required";
+    } else if (this.options.maxLength === undefined) {
+        throw "option 'maxLength' is required";
+    } else if (!this.options.geneFactory) {
+        throw "option 'geneFactory' is required";
+    }
+    return this;
+};
+
+/**
+ * Re creates the individuals body with randomly generated genes
+ * @returns {Individual} Reference to current object for chaining
+ */
+Individual.prototype.initialise = function () {
+    var length = utils.randBetween(this.options.minLength, this.options.maxLength + 1);
+    this.body = [];
+    for (var i = 0; i &lt; length; i++) {
+        this.body.push(this.options.geneFactory(this));
+    }
+    return this;
+};
+
+/**
+ * Creates a deep copy of the individual
+ * @returns {Individual} A copy of the Individual instance
+ */
+Individual.prototype.copy = function () {
+    return clone(this);
+};
+
+/**
+ * Creates a deep copy of the individual and then re initialises
+ * @returns {Individual} A new individual based on the current individual
+ */
+Individual.prototype.createNew = function () {
+    var newIndividual = this.copy();
+    newIndividual.initialise();
+    return newIndividual;
+};
+
+/**
+ * Mutates the individual by swapping a single gene with a randomly created gene
+ * @returns {Individual} Reference to current object for chaining
+ */
+Individual.prototype.mutate = function () {
+    this.body[utils.randBetween(0, this.body.length)] = this.options.geneFactory(this);
+    this.fitness = null;
+    return this;
+};
+
+/**
+ * Determine whether the individual body length can change (i.e. minLength === maxLength)
+ * @returns {boolean} A true value if the indiviuals body is of fixed length, otherwise false
+ */
+Individual.prototype.isFixedLength = function () {
+    return this.options.minLength === this.options.maxLength;
+};
+
+exports.Individual = Individual;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Individual.html">Individual</a></li><li><a href="LinearConditionalNode.html">LinearConditionalNode</a></li><li><a href="LinearFunctionNode.html">LinearFunctionNode</a></li><li><a href="LinearGPNode.html">LinearGPNode</a></li><li><a href="LinearIndividual.html">LinearIndividual</a></li><li><a href="Population.html">Population</a></li><li><a href="RegisterReference.html">RegisterReference</a></li><li><a href="RegisterSet.html">RegisterSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphabet">alphabet</a></li><li><a href="global.html#arrayEqual">arrayEqual</a></li><li><a href="global.html#binaryNumber">binaryNumber</a></li><li><a href="global.html#binaryString">binaryString</a></li><li><a href="global.html#createCalculation">createCalculation</a></li><li><a href="global.html#createConstant">createConstant</a></li><li><a href="global.html#createInput">createInput</a></li><li><a href="global.html#createOutput">createOutput</a></li><li><a href="global.html#formatString">formatString</a></li><li><a href="global.html#fpEqual">fpEqual</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#linearNode">linearNode</a></li><li><a href="global.html#onePointFixed">onePointFixed</a></li><li><a href="global.html#onePointVariable">onePointVariable</a></li><li><a href="global.html#randBetween">randBetween</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomNumber">randomNumber</a></li><li><a href="global.html#rank">rank</a></li><li><a href="global.html#rouletteWheel">rouletteWheel</a></li><li><a href="global.html#selectRandom">selectRandom</a></li><li><a href="global.html#swapGenes">swapGenes</a></li><li><a href="global.html#tournament">tournament</a></li><li><a href="global.html#twoPointFixed">twoPointFixed</a></li><li><a href="global.html#twoPointVariable">twoPointVariable</a></li><li><a href="global.html#uniform">uniform</a></li><li><a href="global.html#validateFixedLength">validateFixedLength</a></li><li><a href="global.html#validateMinimumLength">validateMinimumLength</a></li><li><a href="global.html#validateVariableLength">validateVariableLength</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Sat Aug 16 2014 23:01:50 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

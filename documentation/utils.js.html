@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: infrastructure/utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: infrastructure/utils.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var util = require('util');
+
+/**
+ * Returns a random whole number between a specified range
+ * @param {number} min - Minimum value (inclusive)
+ * @param {number} max - Maximum value (exclusive)
+ * @returns A random whole number between a specified range
+ */
+exports.randBetween = function (min, max) {
+    var val = Math.floor(Math.random() * (max - min + 1) + min);
+    return val === max ? val - 1 : val;
+};
+
+/**
+ * Returns a random number between 0 and 1
+ * @returns A random number between 0 and 1
+ */
+exports.random = function () {
+    return Math.random();
+};
+
+/**
+ * Returns a randomly selected element from an array
+ * @param {array} from - An array to select an element from
+ * @returns A randomly selected element from the provided array
+ */
+exports.selectRandom = function (from) {
+    return from[exports.randBetween(0, from.length)];
+};
+
+/**
+ * Performs floating point comparison between two numbers with an epsilon of 0.00001
+ * @param {number} a - The first number to compare
+ * @param {number} b - The second number to compare
+ * @returns {boolean} True if the provided numbers are equal, otherwise false
+ */
+exports.fpEqual = function (a, b) {
+    return (a - b) &lt;= 0.00001;
+};
+
+/**
+ * Compares two arrays by each element
+ * @param {array} a - The first array to compare
+ * @param {array} b - The second array to compare
+ * @returns {boolean} True if the provided arrays are equal, otherwise false
+ */
+exports.arrayEqual = function (a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+    for (var i = 0; i &lt; a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+};
+
+/**
+ * Replaces each tag in the provided string with its corresponding parameter element
+ * @param {string} stringVar - String to convert
+ * @param {array} argsArray - An array of arguments
+ * @returns {string} Converted string
+ */
+exports.formatString = function (stringVar, argsArray) {
+    return stringVar.replace(/{(\d+)}/g, function (match, number) {
+        return typeof argsArray[number] != 'undefined' ? argsArray[number] : match;
+    });
+};
+
+/**
+ * Calls nodes util.inherits function
+ */
+exports.inherits = function (constructor, superConstructor) {
+    util.inherits(constructor, superConstructor);
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Individual.html">Individual</a></li><li><a href="LinearConditionalNode.html">LinearConditionalNode</a></li><li><a href="LinearFunctionNode.html">LinearFunctionNode</a></li><li><a href="LinearGPNode.html">LinearGPNode</a></li><li><a href="LinearIndividual.html">LinearIndividual</a></li><li><a href="Population.html">Population</a></li><li><a href="RegisterReference.html">RegisterReference</a></li><li><a href="RegisterSet.html">RegisterSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphabet">alphabet</a></li><li><a href="global.html#arrayEqual">arrayEqual</a></li><li><a href="global.html#binaryNumber">binaryNumber</a></li><li><a href="global.html#binaryString">binaryString</a></li><li><a href="global.html#createCalculation">createCalculation</a></li><li><a href="global.html#createConstant">createConstant</a></li><li><a href="global.html#createInput">createInput</a></li><li><a href="global.html#createOutput">createOutput</a></li><li><a href="global.html#formatString">formatString</a></li><li><a href="global.html#fpEqual">fpEqual</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#linearNode">linearNode</a></li><li><a href="global.html#onePointFixed">onePointFixed</a></li><li><a href="global.html#onePointVariable">onePointVariable</a></li><li><a href="global.html#randBetween">randBetween</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomNumber">randomNumber</a></li><li><a href="global.html#rank">rank</a></li><li><a href="global.html#rouletteWheel">rouletteWheel</a></li><li><a href="global.html#selectRandom">selectRandom</a></li><li><a href="global.html#swapGenes">swapGenes</a></li><li><a href="global.html#tournament">tournament</a></li><li><a href="global.html#twoPointFixed">twoPointFixed</a></li><li><a href="global.html#twoPointVariable">twoPointVariable</a></li><li><a href="global.html#uniform">uniform</a></li><li><a href="global.html#validateFixedLength">validateFixedLength</a></li><li><a href="global.html#validateMinimumLength">validateMinimumLength</a></li><li><a href="global.html#validateVariableLength">validateVariableLength</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Sat Aug 16 2014 23:01:50 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

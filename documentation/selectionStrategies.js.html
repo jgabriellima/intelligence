@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: genetic/selectionStrategies.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: genetic/selectionStrategies.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var utils = require('./../infrastructure/utils');
+
+/**
+ * Returns two randomly selected individuals
+ * @param {Individual[]} individuals - An array of individuals
+ * @param {object} options - Population options
+ */
+exports.random = function (individuals, options) {
+    var selections = [individuals[utils.randBetween(0, individuals.length)]];
+    while (true) {
+        var spouse = individuals[utils.randBetween(0, individuals.length)];
+        if (spouse !== selections[0]) {
+            selections.push(spouse);
+            break;
+        }
+    }
+    return selections;
+};
+
+/**
+ * Returns two individuals using the rank selection algorithm
+ * @param {Individual[]} individuals - An array of individuals
+ * @param {object} options - Population options
+ */
+exports.rank = function (individuals, options) {
+    throw "not implemented";
+};
+
+/**
+ * Returns two individuals using the tournament selection algorithm
+ * @param {Individual[]} individuals - An array of individuals
+ * @param {object} options - Population options
+ */
+exports.tournament = function (individuals, options) {
+    var selections = [];
+    for (var i = 0; i &lt; 2; i++) {
+        var tournament = [];
+        for (var j = 0; j &lt; options.tournamentSize; j++) {
+            var selection = individuals[utils.randBetween(0, individuals.length)];
+            tournament.push(selection);
+        }
+        var winner = tournament[0];
+        if (options.minimise) {
+            for (var j = 1; j &lt; tournament.length; j++) {
+                if (tournament[j].fitness &lt; winner.fitness) winner = tournament[j];
+            }
+        } else {
+            for (var j = 1; j &lt; tournament.length; j++) {
+                if (tournament[j].fitness > winner.fitness) winner = tournament[j]
+            }
+        }
+        selections.push(winner);
+    }
+    return selections;
+};
+
+/**
+ * Returns two individuals using the roulette wheel selection algorithm
+ * @param {Individual[]} individuals - An array of individuals
+ * @param {object} options - Population options
+ */
+exports.rouletteWheel = function (individuals, options) {
+    throw "not implemented";
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Individual.html">Individual</a></li><li><a href="LinearConditionalNode.html">LinearConditionalNode</a></li><li><a href="LinearFunctionNode.html">LinearFunctionNode</a></li><li><a href="LinearGPNode.html">LinearGPNode</a></li><li><a href="LinearIndividual.html">LinearIndividual</a></li><li><a href="Population.html">Population</a></li><li><a href="RegisterReference.html">RegisterReference</a></li><li><a href="RegisterSet.html">RegisterSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#alphabet">alphabet</a></li><li><a href="global.html#arrayEqual">arrayEqual</a></li><li><a href="global.html#binaryNumber">binaryNumber</a></li><li><a href="global.html#binaryString">binaryString</a></li><li><a href="global.html#createCalculation">createCalculation</a></li><li><a href="global.html#createConstant">createConstant</a></li><li><a href="global.html#createInput">createInput</a></li><li><a href="global.html#createOutput">createOutput</a></li><li><a href="global.html#formatString">formatString</a></li><li><a href="global.html#fpEqual">fpEqual</a></li><li><a href="global.html#inherits">inherits</a></li><li><a href="global.html#linearNode">linearNode</a></li><li><a href="global.html#onePointFixed">onePointFixed</a></li><li><a href="global.html#onePointVariable">onePointVariable</a></li><li><a href="global.html#randBetween">randBetween</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomNumber">randomNumber</a></li><li><a href="global.html#rank">rank</a></li><li><a href="global.html#rouletteWheel">rouletteWheel</a></li><li><a href="global.html#selectRandom">selectRandom</a></li><li><a href="global.html#swapGenes">swapGenes</a></li><li><a href="global.html#tournament">tournament</a></li><li><a href="global.html#twoPointFixed">twoPointFixed</a></li><li><a href="global.html#twoPointVariable">twoPointVariable</a></li><li><a href="global.html#uniform">uniform</a></li><li><a href="global.html#validateFixedLength">validateFixedLength</a></li><li><a href="global.html#validateMinimumLength">validateMinimumLength</a></li><li><a href="global.html#validateVariableLength">validateVariableLength</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Sat Aug 16 2014 23:01:50 GMT+0100 (GMT Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

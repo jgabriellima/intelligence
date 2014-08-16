@@ -12,34 +12,40 @@ module.exports = {
     tearDown: function (callback) {
         callback();
     },
-    individual_initializeMissingOptions_throws: function (test) {
+    individual_initialiseMissingOptions_throws: function (test) {
         test.throws(function () {
             var x = new intelligence.Individual();
         });
         test.done();
     },
-    individual_initializeValidOptions_initializesBody: function (test) {
+    individual_initialiseValidOptions_initializesBody: function (test) {
         var ind = new intelligence.Individual(this.individualOptions);
         test.ok(ind.body ? true : false);
         test.done();
     },
-    individual_initializedWithFixedLengthBody_bodySizeIsCorrect: function (test) {
+    individual_initialisedWithFixedLengthBody_bodySizeIsCorrect: function (test) {
         this.individualOptions.minLength = 20;
         this.individualOptions.maxLength = 20;
         var ind = new intelligence.Individual(this.individualOptions);
         test.ok(ind.body.length === 20);
         test.done();
     },
-    individual_initializedWithVariableLengthBody_bodySizeIsWithinBounds: function (test) {
+    individual_initialisedWithVariableLengthBody_bodySizeIsWithinBounds: function (test) {
         var ind = new intelligence.Individual(this.individualOptions);
         test.ok(ind.body.length >= 10 && ind.body.length <= 20);
         test.done();
     },
-    initialize_afterConstruction_resetsBody: function (test) {
+    initialise_afterConstruction_resetsBody: function (test) {
         var ind = new intelligence.Individual(this.individualOptions);
         var prevBody = ind.body.slice(0);
         ind.initialise();
         test.notDeepEqual(JSON.stringify(prevBody), JSON.stringify(ind.body));
+        test.done();
+    },
+    initialise_whenCalled_returnsIndividualInstance: function (test) {
+        var ind = new intelligence.Individual(this.individualOptions);
+        var retrned = ind.initialise();
+        test.equal(retrned, ind);
         test.done();
     },
     isFixedLength_whenIndividualIsFixedLength_returnsTrue: function (test) {
