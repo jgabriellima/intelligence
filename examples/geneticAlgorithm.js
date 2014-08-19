@@ -29,7 +29,7 @@ var fitnessFunction = function (individual) {
 // crossoverStrategies.twoPoint performs two point crossover
 var population = new intelligence.Population({
     baseIndividual: individual,
-    crossoverStrategy: intelligence.crossoverStrategies.twoPoint,
+    crossoverStrategy: intelligence.crossoverStrategies.onePoint,
     fitnessFunction: fitnessFunction,
     elitism: 2,
     populationSize: 75,

@@ -2,23 +2,17 @@ var intelligence = require('./../src/intelligence');
 
 var baseIndividual = new intelligence.LinearIndividual({
     minLength: 2,
-    maxLength: 10,
+    maxLength: 2,
     numInputs: 4,
     numOutputs: 1,
+    constMin: 0,
+    constMax: 0,
+    numCalculationRegisters: 1,
     geneFactory: intelligence.geneFactories.linearNode,
     functionSet: [
 
         function add(a, b) {
             return a + b;
-        }
-    ],
-    conditionalSet: [
-
-        function eq(a, b) {
-            return a === b;
-        },
-        function notEq(a, b) {
-            return a !== b;
         }
     ]
 });
@@ -51,12 +45,12 @@ var fitnessFunction = function (linearIndividual) {
 
 var population = new intelligence.Population({
     baseIndividual: baseIndividual,
-    crossoverStrategy: intelligence.crossoverStrategies.onePoint,
+    crossoverStrategy: intelligence.crossoverStrategies.uniform,
     fitnessFunction: fitnessFunction,
-    elitism: 5,
-    populationSize: 1000,
-    tournamentSize: 5,
-    mutationRate: 0.4,
+    elitism: 1,
+    populationSize: 5000,
+    tournamentSize: 10,
+    mutationRate: 0.6,
     isMinimise: true
 });
 

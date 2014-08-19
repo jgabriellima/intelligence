@@ -92,7 +92,6 @@ LinearIndividual.prototype.execute = function (inputs) {
  * @returns {LinearIndividual} Reference to current object for chaining
  */
 LinearIndividual.prototype.removeIntrons = function () {
-    console.log("Hi");
     var references = [];
     var firstAssignment = false;
     var removeConditional = false;
@@ -141,17 +140,19 @@ LinearIndividual.prototype.removeIntrons = function () {
  * @returns {LinearIndividual} Reference to current object for chaining
  */
 LinearIndividual.prototype.mutate = function () {
-    if (utils.random() < 0.5) {
-        Individual.prototype.mutate.call(this);
-    } else {
-        var node = utils.selectRandom(this.body);
-        if (node instanceof LinearFunctionNode && utils.random() < 0.5) {
-            node.targetRegister = registerReference.createRandomWritable(this.options.registerSet);
-        } else {
-            var elementIndex = utils.randBetween(0, node.inputRegisters.length);
-            node.inputRegisters[elementIndex] = registerReference.createRandomReadable(this.options.registerSet);
-        }
-    }
+    Individual.prototype.mutate.call(this);
+    //    if (utils.random() < 0.5) {
+    //        Individual.prototype.mutate.call(this);
+    //    } else {
+    //        var node = utils.selectRandom(this.body);
+    //        if (node instanceof LinearFunctionNode && utils.random() < 0.5) {
+    //            node.targetRegister = registerReference.createRandomWritable(this.options.registerSet);
+    //        } else {
+    //            var elementIndex = utils.randBetween(0, node.inputRegisters.length);
+    //            node.inputRegisters[elementIndex] = registerReference.createRandomReadable(this.options.registerSet);
+    //        }
+    //    }
+    //    this.fitness = null;
     return this;
 };
 
