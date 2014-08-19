@@ -26,11 +26,10 @@ var fitnessFunction = function (individual) {
 };
 
 // Create a population using the individual created above as the baseIndividual.
-// crossoverStrategies.twoPointFixed performs two point crossover on 
-// individuals whos length is fixed.
+// crossoverStrategies.twoPoint performs two point crossover
 var population = new intelligence.Population({
     baseIndividual: individual,
-    crossoverStrategy: intelligence.crossoverStrategies.onePointFixed,
+    crossoverStrategy: intelligence.crossoverStrategies.twoPoint,
     fitnessFunction: fitnessFunction,
     elitism: 2,
     populationSize: 75,

@@ -50,7 +50,7 @@ RegisterSet.prototype.reset = function () {
 };
 
 /**
- * Resets all registers
+ * Set the input registers
  * @param {object[]} inputs - An array of inputs
  * @throws An exception is thrown if the length of the input array does not match options.numInputs
  * @returns {RegisterSet} Reference to current object for chaining

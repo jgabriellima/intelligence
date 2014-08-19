@@ -12,24 +12,14 @@ var validateMinimumLength = function (individuals) {
 };
 
 /**
- * Throws an exception if any individuals are not fixed length
+ * Throws an exception if any individuals are not fixed length or of different lengths
  * @param {Individual[]} individuals - An array of individuals to validate
  * @throws An exception is thrown if any individuals are not fixed length
  */
 var validateFixedLength = function (individuals) {
-    if (!(individuals[0].isFixedLength() && individuals[1].isFixedLength())) {
-        throw "individuals must be of a fixed length for crossover";
-    }
-};
-
-/**
- * Throws an exception if any individuals are fixed length
- * @param {Individual[]} individuals - An array of individuals to validate
- * @throws An exception is thrown if any individuals are fixed length
- */
-var validateVariableLength = function (individuals) {
-    if (individuals[0].isFixedLength() || individuals[1].isFixedLength()) {
-        throw "individuals must be of variable length for crossover";
+    if (!(individuals[0].isFixedLength() && individuals[1].isFixedLength()) ||
+        (individuals[0].body.length !== individuals[1].body.length)) {
+        throw "individuals must be of a fixed length and equal in length for crossover";
     }
 };
 
@@ -45,40 +35,6 @@ var swapGenes = function (indvidualA, indvidualB, index) {
     indvidualB.body[index] = temp;
 };
 
-/**
- * Performs one point fixed crossover
- * @param {Individual[]} individuals - An array containing two individuals
- * @returns {Individual[]} An array containing two offspring
- */
-exports.onePointFixed = function (individuals) {
-    validateMinimumLength(individuals);
-    validateFixedLength(individuals);
-    var offspringA = individuals[0].copy();
-    var offspringB = individuals[1].copy();
-    var cut = utils.randBetween(0, offspringA.body.length - 1);
-    for (var i = cut; i < offspringA.body.length; i++) {
-        swapGenes(offspringA, offspringB, i);
-    }
-    return [offspringA, offspringB];
-};
-
-/**
- * Performs two point fixed crossover
- * @param {Individual[]} individuals - An array containing two individuals
- * @returns {Individual[]} An array containing two offspring
- */
-exports.twoPointFixed = function (individuals) {
-    validateMinimumLength(individuals);
-    validateFixedLength(individuals);
-    var offspringA = individuals[0].copy();
-    var offspringB = individuals[1].copy();
-    var cutA = utils.randBetween(0, offspringA.body.length - 2);
-    var cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
-    for (var i = cutA; i < cutB; i++) {
-        swapGenes(offspringA, offspringB, i);
-    }
-    return [offspringA, offspringB];
-};
 
 /**
  * Performs uniform crossover
@@ -99,52 +55,70 @@ exports.uniform = function (individuals) {
 };
 
 /**
- * Performs one point variable crossover
+ * Performs one point crossover
  * @param {Individual[]} individuals - An array containing two individuals
  * @returns {Individual[]} An array containing two offspring
  */
-exports.onePointVariable = function (individuals) {
+exports.onePoint = function (individuals) {
     validateMinimumLength(individuals);
-    validateVariableLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
-    var cutA = utils.randBetween(0, offspringA.body.length);
-    var cutB = utils.randBetween(0, offspringB.body.length);
-    offspringA.body = individuals[0].body.slice(0, cutA).concat(individuals[1].body.slice(cutB, individuals[1].body.length));
-    offspringB.body = individuals[1].body.slice(0, cutB).concat(individuals[0].body.slice(cutA, individuals[0].body.length));
+    var indexA, indexB, newSizeA, newSizeB, cuts;
+    var validCuts = [];
+    var indexA = utils.randBetween(0, offspringA.body.length);
+    for (indexB = 0; indexB < offspringB.body.length; indexB++) {
+        newSizeA = indexA + (offspringB.body.length - indexB);
+        newSizeB = indexB + (offspringA.body.length - indexA);
+        if (newSizeA >= offspringA.options.minLength && newSizeA <= offspringA.options.maxLength &&
+            newSizeB >= offspringB.options.minLength && newSizeB <= offspringB.options.maxLength) {
+            validCuts.push({
+                a: indexA,
+                b: indexB
+            });
+        }
+    }
+    cuts = utils.selectRandom(validCuts);
+    offspringA.body = individuals[0].body.slice(0, cuts.a).concat(individuals[1].body.slice(cuts.b));
+    offspringB.body = individuals[1].body.slice(0, cuts.b).concat(individuals[0].body.slice(cuts.a));
     return [offspringA, offspringB];
 };
 
 /**
- * Performs two point variable crossover
+ * Performs two point crossover
  * @param {Individual[]} individuals - An array containing two individuals
  * @returns {Individual[]} An array containing two offspring
  */
-exports.twoPointVariable = function (individuals) {
+exports.twoPoint = function (individuals) {
     validateMinimumLength(individuals);
-    validateVariableLength(individuals);
     var offspringA = individuals[0].copy();
     var offspringB = individuals[1].copy();
-    var cutA, cutB, cutC, cutD;
-    while (true) {
-        cutA = utils.randBetween(0, offspringA.body.length - 2);
-        cutB = utils.randBetween(cutA + 1, offspringA.body.length - 1);
-        cutC = utils.randBetween(0, offspringB.body.length - 2);
-        cutD = utils.randBetween(cutC + 1, offspringB.body.length - 1);
-        var newSizeA = offspringA.body.length - (cutB - cutA) + (cutD - cutC);
-        var newSizeB = offspringB.body.length - (cutD - cutC) + (cutB - cutA);
-        if (newSizeA <= offspringA.options.maxLength &&
-            newSizeA >= offspringA.options.minLength &&
-            newSizeB <= offspringB.options.maxLength &&
-            newSizeB >= offspringB.options.minLength) {
-            break;
+    var indexC, indexD, cuts, newSizeA, newSizeB;
+    var validCuts = [];
+    var indexA = utils.randBetween(0, offspringA.body.length - 1);
+    var indexB = utils.randBetween(indexA + 1, offspringA.body.length);
+    for (indexC = 0; indexC < offspringB.body.length; indexC++) {
+        for (indexD = indexC + 1; indexD < offspringB.body.length; indexD++) {
+            newSizeA = offspringA.body.length - (indexB - indexA) + (indexD - indexC);
+            newSizeB = offspringB.body.length - (indexD - indexC) + (indexB - indexA);
+            if (newSizeA <= offspringA.options.maxLength &&
+                newSizeA >= offspringA.options.minLength &&
+                newSizeB <= offspringB.options.maxLength &&
+                newSizeB >= offspringB.options.minLength) {
+                validCuts.push({
+                    a: indexA,
+                    b: indexB,
+                    c: indexC,
+                    d: indexD
+                });
+            }
         }
     }
-    offspringA.body = individuals[0].body.slice(0, cutA);
-    offspringB.body = individuals[1].body.slice(0, cutC);
-    offspringA.body = offspringA.body.concat(individuals[1].body.slice(cutC, cutD));
-    offspringB.body = offspringB.body.concat(individuals[0].body.slice(cutA, cutB));
-    offspringA.body = offspringA.body.concat(individuals[0].body.slice(cutB, individuals[0].body.length));
-    offspringB.body = offspringB.body.concat(individuals[1].body.slice(cutD, individuals[1].body.length));
+    cuts = utils.selectRandom(validCuts);
+    offspringA.body = individuals[0].body.slice(0, cuts.a);
+    offspringB.body = individuals[1].body.slice(0, cuts.c);
+    offspringA.body = offspringA.body.concat(individuals[1].body.slice(cuts.c, cuts.d + 1));
+    offspringB.body = offspringB.body.concat(individuals[0].body.slice(cuts.a, cuts.b + 1));
+    offspringA.body = offspringA.body.concat(individuals[0].body.slice(cuts.b + 1));
+    offspringB.body = offspringB.body.concat(individuals[1].body.slice(cuts.d + 1));
     return [offspringA, offspringB];
 };

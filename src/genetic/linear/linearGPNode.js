@@ -21,19 +21,11 @@ var LinearGPNode = function (func, registerSet) {
  * @returns {LinearGPNode} Reference to current object for chaining
  */
 LinearGPNode.prototype.setInputRegisters = function (registerSet) {
-    var random = utils.random();
     this.inputRegisters = [];
     for (var i = 0; i < this.func.length; i++) {
-        if (random < 0.25) {
-            this.inputRegisters.push(registerReference.createInput(registerSet));
-        } else if (random < 0.5) {
-            this.inputRegisters.push(registerReference.createConstant(registerSet));
-        } else if (random < 0.75) {
-            this.inputRegisters.push(registerReference.createCalculation(registerSet));
-        } else {
-            this.inputRegisters.push(registerReference.createOutput(registerSet));
-        }
+        this.inputRegisters.push(registerReference.createRandomReadable(registerSet));
     }
+    return this;
 };
 
 /**

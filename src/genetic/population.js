@@ -116,7 +116,7 @@ Population.prototype.crossover = function () {
 };
 
 /**
- * Mutates the population based on the mutationRate property in each individuals options
+ * Mutates the population based on the mutationRate property in the population options
  * @returns {Population} Reference to current object for chaining
  */
 Population.prototype.mutate = function () {
@@ -126,6 +126,7 @@ Population.prototype.mutate = function () {
         if (!elite || elite.indexOf(this.individuals[i]) === -1) {
             if (utils.random() < this.options.mutationRate) {
                 this.individuals[i].mutate();
+                this.individuals[i].fitness = null;
             }
         }
     }
@@ -209,6 +210,33 @@ Population.prototype.filterNanFitness = function () {
         }
     }
     return this;
+};
+
+/**
+ * Save the population to a file
+ * @param {string} filePath - Path to file
+ * @callback {writeToFileCallback} cb - Callback handler
+ */
+Population.prototype.saveToFile = function (filePath, cb) {
+    var serialised = utils.serialise(this);
+    utils.writeToFile(filePath, serialised, cb);
+};
+
+/**
+ * Load a population from a file
+ * @static
+ * @param {string} filePath - Path to file
+ * @callback {loadFromFileCallback} cb - Callback handler
+ */
+Population.loadFromFile = function (filePath, cb) {
+    utils.readFromFile(filePath, function (err, data) {
+        if (err) {
+            cb(err);
+        } else {
+            var deserialised = utils.deserialise(data);
+            return deserialised;
+        }
+    });
 };
 
 exports.Population = Population;

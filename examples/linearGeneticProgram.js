@@ -2,20 +2,14 @@ var intelligence = require('./../src/intelligence');
 
 var baseIndividual = new intelligence.LinearIndividual({
     minLength: 2,
-    maxLength: 5,
-    numInputs: 3,
+    maxLength: 10,
+    numInputs: 4,
     numOutputs: 1,
     geneFactory: intelligence.geneFactories.linearNode,
     functionSet: [
 
         function add(a, b) {
             return a + b;
-        },
-        function subt(a, b) {
-            return a - b;
-        },
-        function mult(a, b) {
-            return a * b;
         }
     ],
     conditionalSet: [
@@ -30,15 +24,15 @@ var baseIndividual = new intelligence.LinearIndividual({
 });
 
 var inputs = [
-    [12, 23, 34],
-    [23, 98, 6],
-    [87, 44, 43],
-    [21, 67, 32],
-    [33, 33, 33],
-    [98, 99, 3],
-    [73, 83, 42],
-    [25, 36, 13],
-    [32, 2, 19]
+    [12, 23, 34, 23],
+    [23, 98, 6, 44],
+    [87, 44, 43, 2],
+    [21, 67, 32, 98],
+    [33, 33, 33, 39],
+    [98, 99, 3, 72],
+    [73, 83, 42, 72],
+    [25, 36, 13, 27],
+    [32, 2, 19, 53]
 ];
 
 var fitnessFunction = function (linearIndividual) {
@@ -57,11 +51,12 @@ var fitnessFunction = function (linearIndividual) {
 
 var population = new intelligence.Population({
     baseIndividual: baseIndividual,
-    crossoverStrategy: intelligence.crossoverStrategies.twoPointVariable,
+    crossoverStrategy: intelligence.crossoverStrategies.onePoint,
     fitnessFunction: fitnessFunction,
     elitism: 5,
-    populationSize: 500,
+    populationSize: 1000,
     tournamentSize: 5,
+    mutationRate: 0.4,
     isMinimise: true
 });
 

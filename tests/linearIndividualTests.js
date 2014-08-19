@@ -8,6 +8,7 @@ module.exports = {
             maxLength: 20,
             numInputs: 5,
             numOutputs: 1,
+            removeIntrons: false,
             geneFactory: intelligence.geneFactories.linearNode,
             functionSet: [
 
@@ -108,6 +109,15 @@ module.exports = {
         var outputB = individual.execute([5, 4, 3, 2, 1])[0];
         test.equal(outputA, 2);
         test.equal(outputB, 4);
+        test.done();
+    },
+    removeIntrons_whenIndividualIsExecutedBeforeAndAfter_outputIsTheSame: function (test) {
+        var individual = new intelligence.LinearIndividual(this.individualOptions);
+        var inputs = [1, 2, 3, 4, 5];
+        var outputValue = individual.execute(inputs)[0];
+        individual.removeIntrons();
+        var outputValueAfter = individual.execute(inputs)[0];
+        test.equal(outputValue, outputValueAfter);
         test.done();
     }
 };

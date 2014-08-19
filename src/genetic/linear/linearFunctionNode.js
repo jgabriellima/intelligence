@@ -25,12 +25,7 @@ utils.inherits(LinearFunctionNode, LinearGPNode);
  * @returns {LinearFunctionNode} Reference to current object for chaining
  */
 LinearFunctionNode.prototype.setTargetRegister = function (registerSet) {
-    var pCalulcation = registerSet.calc.length / registerSet.getTotalWritableRegisters();
-    if (utils.random() < pCalulcation) {
-        this.targetRegister = new registerReference.createCalculation(registerSet);
-    } else {
-        this.targetRegister = new registerReference.createOutput(registerSet);
-    }
+    this.targetRegister = registerReference.createRandomWritable(registerSet);
     return this;
 };
 

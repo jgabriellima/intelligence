@@ -10,7 +10,7 @@ module.exports = {
                     return Math.random() < 0.5 ? 0 : 1;
                 }
             }),
-            crossoverStrategy: intelligence.crossoverStrategies.onePointFixed,
+            crossoverStrategy: intelligence.crossoverStrategies.onePoint,
             fitnessFunction: function (individual) {
                 var fitness = 0;
                 for (var i = 0; i < individual.length; i++) {

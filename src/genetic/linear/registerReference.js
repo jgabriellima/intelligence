@@ -113,6 +113,38 @@ exports.createOutput = function (registerSet, index) {
     return new RegisterReference(exports.OUTPUT, registerSet, index);
 };
 
+/**
+ * Creates a random readable register reference
+ * @param {RegisterSet} registerSet - A register set instance
+ * @returns {RegisterReference} A new readable register reference
+ */
+exports.createRandomReadable = function (registerSet) {
+    var random = utils.random();
+    if (random < 0.25) {
+        return exports.createInput(registerSet);
+    } else if (random < 0.5 && registerSet.const.length > 0) {
+        return exports.createConstant(registerSet);
+    } else if (random < 0.75 && registerSet.calc.length > 0) {
+        return exports.createCalculation(registerSet);
+    } else {
+        return exports.createOutput(registerSet);
+    }
+};
+
+/**
+ * Creates a random writable register reference
+ * @param {RegisterSet} registerSet - A register set instance
+ * @returns {RegisterReference} A new writable register reference
+ */
+exports.createRandomWritable = function (registerSet) {
+    var random = utils.random();
+    if (random < 0.5 && registerSet.calc.length > 0) {
+        return exports.createCalculation(registerSet);
+    } else {
+        return exports.createOutput(registerSet);
+    }
+};
+
 exports.INPUT = 'input';
 exports.CONSTANT = 'const';
 exports.CALCULATION = 'calc';

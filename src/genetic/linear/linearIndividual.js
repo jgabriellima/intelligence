@@ -2,6 +2,7 @@ var clone = require('clone');
 var utils = require('./../../infrastructure/utils');
 var Individual = require('./../individual').Individual;
 var RegisterSet = require('./registerSet').RegisterSet;
+var registerReference = require('./registerReference');
 var LinearFunctionNode = require('./linearFunctionNode').LinearFunctionNode;
 var LinearConditionalNode = require('./linearConditionalNode').LinearConditionalNode;
 
@@ -63,6 +64,9 @@ LinearIndividual.prototype.setDefaultOptionsIfNotProvided = function () {
  * @returns {object[]} An array of outputs
  */
 LinearIndividual.prototype.execute = function (inputs) {
+    if (this.options.removeIntrons) {
+        this.removeIntrons();
+    }
     var i = 0;
     this.options.registerSet.setInputs(inputs);
     while (i < this.body.length) {
@@ -88,7 +92,67 @@ LinearIndividual.prototype.execute = function (inputs) {
  * @returns {LinearIndividual} Reference to current object for chaining
  */
 LinearIndividual.prototype.removeIntrons = function () {
+    console.log("Hi");
+    var references = [];
+    var firstAssignment = false;
+    var removeConditional = false;
+    var i = this.body.length - 1
+    while (i >= 0 && this.body.length > this.options.minLength) {
+        var node = this.body[i];
+        if (!firstAssignment) {
+            if (node instanceof LinearConditionalNode ||
+                node.targetRegister.flag !== registerReference.OUTPUT) {
+                this.body.splice(i, 1);
+            } else {
+                firstAssignment = true;
+                references = references.concat(node.inputRegisters);
+            }
+        } else {
+            if (removeConditional && node instanceof LinearConditionalNode) {
+                this.body.splice(i, 1);
+            } else {
+                removeConditional = false;
+                if (node instanceof LinearFunctionNode) {
+                    var isEffective = false;
+                    for (var j = 0; j < references.length; j++) {
+                        var reference = references[j];
+                        if (reference.flag === node.targetRegister.flag &&
+                            reference.index === node.targetRegister.index) {
+                            isEffective = true;
+                            break;
+                        }
+                    }
+                    if (isEffective) {
+                        references = references.concat(node.inputRegisters);
+                    } else {
+                        this.body.splice(i, 1);
+                        removeConditional = true;
+                    }
+                }
+            }
+        }
+        i--;
+    }
+    return this;
+};
 
+/**
+ * Mutates a single node or an input or target register within a node
+ * @returns {LinearIndividual} Reference to current object for chaining
+ */
+LinearIndividual.prototype.mutate = function () {
+    if (utils.random() < 0.5) {
+        Individual.prototype.mutate.call(this);
+    } else {
+        var node = utils.selectRandom(this.body);
+        if (node instanceof LinearFunctionNode && utils.random() < 0.5) {
+            node.targetRegister = registerReference.createRandomWritable(this.options.registerSet);
+        } else {
+            var elementIndex = utils.randBetween(0, node.inputRegisters.length);
+            node.inputRegisters[elementIndex] = registerReference.createRandomReadable(this.options.registerSet);
+        }
+    }
+    return this;
 };
 
 /**
@@ -98,12 +162,13 @@ LinearIndividual.prototype.removeIntrons = function () {
 LinearIndividual.prototype.toString = function () {
     var toReturn = "";
     var numIndents = 0;
-    for (var i = 0; i < this.body.length; i++) {
+    var i, j;
+    for (i = 0; i < this.body.length; i++) {
         var node = this.body[i];
-        for (var j = 0; j < numIndents; j++) {
-            toReturn += "\t";
+        for (j = 0; j < numIndents; j++) {
+            toReturn += '\t';
         }
-        toReturn += node.toString() + "\n";
+        toReturn += node.toString() + '\n';
         if (node instanceof LinearFunctionNode) {
             numIndents = 0;
         } else {

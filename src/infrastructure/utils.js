@@ -1,4 +1,6 @@
+var fs = require('fs');
 var util = require('util');
+var serialize = require('node-serialize');
 
 /**
  * Returns a random whole number between a specified range
@@ -67,8 +69,43 @@ exports.formatString = function (stringVar, argsArray) {
 };
 
 /**
- * Calls nodes util.inherits function
+ * Calls node util.inherits function
  */
 exports.inherits = function (constructor, superConstructor) {
     util.inherits(constructor, superConstructor);
+};
+
+/**
+ * Serialises object to string
+ * @param {object} obj - Object to serialize
+ */
+exports.serialise = function (obj) {
+    return serialize.serialize(obj);
+};
+
+/**
+ * Deserialises string to object
+ * @param {object} str - String to deserialise
+ */
+exports.deserialise = function (str) {
+    return serialize.unserialize(str);
+};
+
+/**
+ * Writes string to a file
+ * @param {string} filePath - Path to file
+ * @param {string} data - Data to be written to file
+ * @param {writeToFileCallback} cb - Callback handler
+ */
+exports.writeToFile = function (filePath, data, cb) {
+    fs.writeFile(filePath, data, cb);
+};
+
+/**
+ * Reads string from a file
+ * @param {string} filePath - Path to file
+ * @param {readFromFileCallback} cb - Callback handler
+ */
+exports.readFromFile = function (filePath, cb) {
+    fs.readFile(filePath, 'utf8', cb);
 };
