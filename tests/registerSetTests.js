@@ -62,5 +62,21 @@ module.exports = {
         x.setInputs(inputs);
         test.equal(x.input, inputs);
         test.done();
+    },
+    setInputs_whenCalled_resetsOutputNodes: function (test) {
+        var inputs = [1, 2, 3, 4, 5];
+        var x = new intelligence.RegisterSet(this.registerSetOptions);
+        x.out[0] = 1;
+        x.setInputs(inputs);
+        for (var i = 0; i < x.out.length; i++) {
+            test.equal(x.out[i], x.options.defaultOutputValue);
+        }
+        test.done();
+    },
+    getTotalWritableRegisters_whenCaled_returnsCorrectVaue: function (test) {
+        var x = new intelligence.RegisterSet(this.registerSetOptions);
+        var returnValue = x.getTotalWritableRegisters();
+        test.equal(returnValue, 10);
+        test.done();
     }
 };

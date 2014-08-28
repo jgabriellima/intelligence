@@ -1,5 +1,6 @@
 // genetic
 exports.Population = require('./genetic/population').Population;
+exports.SteadyStatePopulation = require('./genetic/steadyStatePopulation').SteadyStatePopulation;
 exports.Individual = require('./genetic/individual').Individual;
 exports.crossoverStrategies = require('./genetic/crossoverStrategies');
 exports.selectionStrategies = require('./genetic/selectionStrategies');

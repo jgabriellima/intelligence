@@ -15,6 +15,7 @@ var clone = require('clone');
 var Individual = function (options) {
     this.body = null;
     this.fitness = null;
+    this.normalisedFitness = null;
     this.options = options;
     this.validateRequiredOptions();
     this.initialise();
@@ -81,8 +82,8 @@ Individual.prototype.mutate = function () {
 };
 
 /**
- * Determine whether the individual body length can change (i.e. minLength === maxLength)
- * @returns {boolean} A true value if the indiviuals body is of fixed length, otherwise false
+ * Determine whether the individual body length is fixed (i.e. minLength === maxLength)
+ * @returns {boolean} A true value if the indiviuals body is of fixed length
  */
 Individual.prototype.isFixedLength = function () {
     return this.options.minLength === this.options.maxLength;

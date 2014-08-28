@@ -135,26 +135,21 @@ LinearIndividual.prototype.removeIntrons = function () {
     return this;
 };
 
-/**
- * Mutates a single node or an input or target register within a node
- * @returns {LinearIndividual} Reference to current object for chaining
- */
-LinearIndividual.prototype.mutate = function () {
-    Individual.prototype.mutate.call(this);
-    //    if (utils.random() < 0.5) {
-    //        Individual.prototype.mutate.call(this);
-    //    } else {
-    //        var node = utils.selectRandom(this.body);
-    //        if (node instanceof LinearFunctionNode && utils.random() < 0.5) {
-    //            node.targetRegister = registerReference.createRandomWritable(this.options.registerSet);
-    //        } else {
-    //            var elementIndex = utils.randBetween(0, node.inputRegisters.length);
-    //            node.inputRegisters[elementIndex] = registerReference.createRandomReadable(this.options.registerSet);
-    //        }
-    //    }
-    //    this.fitness = null;
-    return this;
-};
+//LinearIndividual.prototype.mutate = function () {
+//    var index = utils.randBetween(0, this.body.length);
+//    if (utils.random() < 0.25) {
+//        this.body[index] = this.options.geneFactory(this);
+//    } else {
+//        var node = this.body[index];
+//        if (node instanceof LinearFunctionNode && utils.random() < 0.5) {
+//            node.targetRegister = registerReference.createRandomWritable(this.options.registerSet);
+//        } else {
+//            var inputRegisterIndex = utils.randBetween(0, node.inputRegisters.length);
+//            node.inputRegisters[inputRegisterIndex] = registerReference.createRandomReadable(this.options.registerSet);
+//        }
+//    }
+//    return this;
+//};
 
 /**
  * Returns a string containing an executable representation of the individual

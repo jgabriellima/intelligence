@@ -55,7 +55,7 @@ Population.prototype.setDefaultOptionsIfNotProvided = function () {
         this.options.mutationRate = 0.2;
     }
     if (!this.options.tournamentSize) {
-        this.options.tournamentSize = Math.ceil(this.options.populationSize * 0.05);
+        this.options.tournamentSize = 2;
     }
     if (!this.options.selectionStrategy) {
         this.options.selectionStrategy = selectionStrategies.tournament;
@@ -72,7 +72,7 @@ Population.prototype.initialise = function () {
     for (var i = 0; i < this.options.populationSize; i++) {
         this.individuals.push(this.options.baseIndividual.createNew());
     }
-    return this;
+    return this.evaluateFitness();
 };
 
 /**
@@ -86,7 +86,7 @@ Population.prototype.evaluateFitness = function () {
             individual.fitness = this.options.fitnessFunction(individual);
         }
     }
-    return this.filterNanFitness();
+    return this.filterNanFitness().setNormalisedFitness();
 };
 
 /**
@@ -103,10 +103,9 @@ Population.prototype.crossover = function () {
         }
     }
     while (limbo.length < this.individuals.length) {
-        var selections = this.options.selectionStrategy(this.individuals, this.options);
+        var selections = this.options.selectionStrategy(this);
         if (utils.random() < this.options.crossoverRate) {
-            var elections = this.options.crossoverStrategy(selections, this.options);
-            selections = elections;
+            selections = this.options.crossoverStrategy(selections, this.options);
             for (var i = 0; i < selections.length; i++) selections[i].fitness = null;
         }
         limbo = limbo.concat(selections);
@@ -141,7 +140,6 @@ Population.prototype.mutate = function () {
 Population.prototype.getFittestIndividuals = function (numIndividuals) {
     this.evaluateFitness();
     var self = this;
-    this.evaluateFitness();
     if (!numIndividuals) numIndividuals = 1;
     return this.individuals.sort(function (a, b) {
         if (a.fitness === null && b.fitness === null) {
@@ -151,7 +149,7 @@ Population.prototype.getFittestIndividuals = function (numIndividuals) {
         } else if (b.fitness === null) {
             return 1;
         } else {
-            return self.options.isMinimise ? a.fitness - b.fitness : b.fitness - a.fitness;
+            return b.normalisedFitness - a.normalisedFitness;
         }
     }).slice(0, numIndividuals);
 };
@@ -161,18 +159,62 @@ Population.prototype.getFittestIndividuals = function (numIndividuals) {
  * @returns {number} Average fitness of the population
  */
 Population.prototype.getAverageFitness = function () {
-    this.evaluateFitness();
+    var sum = this.getSumFitness();
+    return sum / this.individuals.length;
+};
+
+/**
+ * Calculate the sum of all individual fitness values
+ * @returns {number} Sum of all individual fitness values
+ */
+Population.prototype.getSumFitness = function () {
     var sum = 0;
     for (var i = 0; i < this.individuals.length; i++) {
         if (isFinite(this.individuals[i].fitness)) {
             sum += this.individuals[i].fitness;
         }
-    };
-    return sum / this.individuals.length;
+    }
+    return sum;
+};
+
+Population.prototype.getSumNormalisedFitness = function () {
+    var sum = 0;
+    for (var i = 0; i < this.individuals.length; i++) {
+        if (isFinite(this.individuals[i].normalisedFitness)) {
+            sum += this.individuals[i].normalisedFitness;
+        }
+    }
+    return sum;
 };
 
 /**
- * Applies a single iteration of crossover and mutation to the population
+ * Sets the normalised fitness for each individual in the population
+ * @returns {Population} Reference to current object for chaining
+ */
+Population.prototype.setNormalisedFitness = function () {
+    var i, individual, normalised;
+    var sum = this.getSumFitness();
+    for (i = 0; i < this.individuals.length; i++) {
+        individual = this.individuals[i];
+        if (isNaN(individual.fitness)) {
+            individual.normalisedFitness = 0;
+        } else if (!isFinite(individual.fitness)) {
+            if (individual.fitness > 0) {
+                individual.normalisedFitness = this.options.isMinimise ? 0 : 1;
+            } else {
+                individual.normalisedFitness = this.options.isMinimise ? 1 : 0;
+            }
+        } else {
+            normalised = individual.fitness / sum;
+            normalised = this.options.isMinimise ? 1 - normalised : normalised;
+            individual.normalisedFitness = isNaN(normalised) ? 0 : normalised;
+        }
+    }
+    return this;
+};
+
+/**
+ * Applies a single iteration of selection, crossover and mutation to the population
  * @returns {Population} Reference to current object for chaining
  */
 Population.prototype.step = function () {

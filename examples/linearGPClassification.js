@@ -95,7 +95,7 @@ var baseIndividual = new intelligence.LinearIndividual({
     maxLength: 20,
     numInputs: 42,
     numOutputs: 9,
-    numCalculationRegisters: 10,
+    numCalculationRegisters: 3,
     geneFactory: intelligence.geneFactories.linearNode,
     functionSet: [
 
@@ -113,18 +113,6 @@ var baseIndividual = new intelligence.LinearIndividual({
 
         function div(a, b) {
             return a / b;
-        }
-    ],
-    conditionalSet: [
-
-        function greater(a, b) {
-            return a > b;
-        },
-        function lessThan(a, b) {
-            return a < b;
-        },
-        function equal(a, b) {
-            return a === b;
         }
     ]
 });
@@ -157,18 +145,17 @@ var fitnessFunction = function (linearIndividual) {
 
 var population = new intelligence.Population({
     baseIndividual: baseIndividual,
-    crossoverStrategy: intelligence.crossoverStrategies.onePoint,
+    crossoverStrategy: intelligence.crossoverStrategies.twoPoint,
     fitnessFunction: fitnessFunction,
-    elitism: 1,
-    populationSize: 1000,
-    tournamentSize: 5,
-    mutationRate: 0.45
+    populationSize: 3000,
+    tournamentSize: 15
 });
 
 population.on('generationCompleted', function (population, generationNumber) {
     if (generationNumber % 10 === 0) {
         var best = population.getFittestIndividuals(1)[0];
-        var accuracy = population.getFittestIndividuals(1)[0].fitness / 8;
+        var accuracy = population.getFittestIndividuals(1)[0].fitness / 9;
+        accuracy = Math.round(accuracy * 100) + "%";
         console.log("Gen: " + generationNumber + " accuracy: " + accuracy + ", best:");
         process.stdout.write(best.toString());
         console.log("");

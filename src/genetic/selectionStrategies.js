@@ -5,7 +5,8 @@ var utils = require('./../infrastructure/utils');
  * @param {Individual[]} individuals - An array of individuals
  * @param {object} options - Population options
  */
-exports.random = function (individuals, options) {
+exports.random = function (population) {
+    var individuals = population.individuals;
     var selections = [individuals[utils.randBetween(0, individuals.length)]];
     while (true) {
         var spouse = individuals[utils.randBetween(0, individuals.length)];
@@ -19,35 +20,49 @@ exports.random = function (individuals, options) {
 
 /**
  * Returns two individuals using the rank selection algorithm
- * @param {Individual[]} individuals - An array of individuals
- * @param {object} options - Population options
+ * @param {Population} population - A population instance
  */
-exports.rank = function (individuals, options) {
-    throw "not implemented";
+exports.rank = function (population) {
+    var a = utils.random();
+    var b = utils.random();
+    var selectionA, selectionB;
+    var runningTotal = 0;
+    var numIndividuals = population.individuals.length;
+    var sum = (numIndividuals * (numIndividuals + 1)) / 2;
+    var individuals = population.individuals.sort(function (a, b) {
+        return a.normalisedFitness - b.normalisedFitness;
+    });
+    for (var i = individuals.length - 1; i >= 0; i--) {
+        runningTotal += ((i + 1) / sum);
+        if (runningTotal >= a && !selectionA) {
+            selectionA = individuals[i];
+        }
+        if (runningTotal >= b && !selectionB) {
+            selectionB = individuals[i];
+        }
+        if (selectionA && selectionB) {
+            break;
+        }
+    }
+    return [selectionA, selectionB];
 };
 
 /**
  * Returns two individuals using the tournament selection algorithm
- * @param {Individual[]} individuals - An array of individuals
- * @param {object} options - Population options
+ * @param {Population} population - A population instance
  */
-exports.tournament = function (individuals, options) {
+exports.tournament = function (population) {
     var selections = [];
+    var individuals = population.individuals;
     for (var i = 0; i < 2; i++) {
         var tournament = [];
-        for (var j = 0; j < options.tournamentSize; j++) {
-            var selection = individuals[utils.randBetween(0, individuals.length)];
+        for (var j = 0; j < population.options.tournamentSize; j++) {
+            var selection = utils.selectRandom(population.individuals);
             tournament.push(selection);
         }
         var winner = tournament[0];
-        if (options.minimise) {
-            for (var j = 1; j < tournament.length; j++) {
-                if (tournament[j].fitness < winner.fitness) winner = tournament[j];
-            }
-        } else {
-            for (var j = 1; j < tournament.length; j++) {
-                if (tournament[j].fitness > winner.fitness) winner = tournament[j]
-            }
+        for (var j = 1; j < tournament.length; j++) {
+            if (tournament[j].normalisedFitness > winner.normalisedFitness) winner = tournament[j];
         }
         selections.push(winner);
     }
@@ -56,9 +71,27 @@ exports.tournament = function (individuals, options) {
 
 /**
  * Returns two individuals using the roulette wheel selection algorithm
- * @param {Individual[]} individuals - An array of individuals
- * @param {object} options - Population options
+ * @param {Population} population - A population instance
  */
-exports.rouletteWheel = function (individuals, options) {
-    throw "not implemented";
+exports.rouletteWheel = function (population) {
+    var selections = [];
+    var a = utils.random();
+    var b = utils.random();
+    var runningTotal = 0;
+    var selectionA, selectionB;
+    var sum = population.getSumNormalisedFitness();
+    for (var i = 0; i < population.individuals.length; i++) {
+        var individual = population.individuals[i];
+        runningTotal += individual.normalisedFitness / sum;
+        if (runningTotal > a && !selectionA) {
+            selectionA = individual;
+        }
+        if (runningTotal >= b && !selectionB) {
+            selectionB = individual;
+        }
+        if (selectionA && selectionB) {
+            break;
+        }
+    }
+    return [selectionA, selectionB];
 };

@@ -98,5 +98,28 @@ module.exports = {
         }
         test.equal(fittest.fitness, returnedIndividual.fitness);
         test.done();
+    },
+    getSumFitness_whenCalled_returnsSumFitness: function (test) {
+        var population = new intelligence.Population(this.populationOptions);
+        var total = 0;
+        for (var i = 0; i < population.individuals.length; i++) {
+            total += population.individuals[i].fitness;
+        }
+        test.equal(total, population.getSumFitness());
+        test.done();
+    },
+    getSumFitness_whenPopulationContainsNanFitness_returnValueIsANumber: function (test) {
+        var population = new intelligence.Population(this.populationOptions);
+        population.individuals[0].fitness = Number.NaN;
+        var sumFitness = population.getSumFitness();
+        test.ok(!isNaN(sumFitness));
+        test.done();
+    },
+    getSumFitness_whenPopulationContainsInfiniteFitness_returnValueIsFinite: function (test) {
+        var population = new intelligence.Population(this.populationOptions);
+        population.individuals[0].fitness = Number.POSITIVE_INFINITY;
+        var sumFitness = population.getSumFitness();
+        test.ok(isFinite(sumFitness));
+        test.done();
     }
 };
