@@ -18,9 +18,9 @@ intelligence.js is a highly modular and extensible machine learning library writ
 
 ### Examples
 
-- [Genetic Algorithm](https://github.com/Sherlock92/intelligence/blob/master/examples/geneticAlgorithm.js)
-- [Linear Genetic Programming](https://github.com/Sherlock92/intelligence/blob/master/examples/linearGeneticProgram.js)
-- [Linear Genetic Programming Classification](https://github.com/Sherlock92/intelligence/blob/master/examples/linearGPClassification.js)
+- [Genetic Algorithm](./examples/geneticAlgorithm.js)
+- [Linear Genetic Programming](./examples/linearGeneticProgram.js)
+- [Linear Genetic Programming Classification](./examples/linearGPClassification.js)
 
 ---
 
