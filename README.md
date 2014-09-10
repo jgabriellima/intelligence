@@ -29,6 +29,7 @@ intelligence.js is a highly modular and extensible machine learning library writ
 - Self organising maps
 - Ant colony optimisation
 - Tree based genetic programming
+- Object oriented linear genetic programming
 
 ---
 
