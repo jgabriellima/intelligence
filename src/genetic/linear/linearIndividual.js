@@ -135,22 +135,6 @@ LinearIndividual.prototype.removeIntrons = function () {
     return this;
 };
 
-//LinearIndividual.prototype.mutate = function () {
-//    var index = utils.randBetween(0, this.body.length);
-//    if (utils.random() < 0.25) {
-//        this.body[index] = this.options.geneFactory(this);
-//    } else {
-//        var node = this.body[index];
-//        if (node instanceof LinearFunctionNode && utils.random() < 0.5) {
-//            node.targetRegister = registerReference.createRandomWritable(this.options.registerSet);
-//        } else {
-//            var inputRegisterIndex = utils.randBetween(0, node.inputRegisters.length);
-//            node.inputRegisters[inputRegisterIndex] = registerReference.createRandomReadable(this.options.registerSet);
-//        }
-//    }
-//    return this;
-//};
-
 /**
  * Returns a string containing an executable representation of the individual
  * @returns {string} A string containing an executable representation of the individual
